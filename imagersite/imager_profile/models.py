@@ -53,3 +53,7 @@ class Profile(models.Model):
     def is_active(self):
         """Return whether a user is active."""
         return self.user.is_active
+
+    def __repr__(self):
+        """Repr method for Profile."""
+        return "Website: {}, Location: {}, Fee: {}, Active: {}, Camera: {}, Services: {}, Bio: {}, Phone: {}, User: {}".format(self.website, self.location, self.fee, self.active, self.camera, self.bio, self.phone, self.user)
