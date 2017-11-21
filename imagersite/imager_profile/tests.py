@@ -25,5 +25,18 @@ sample_profile().save()
 class ProfileTests(TestCase):
     """Define the ProfileTests class."""
 
-    def test_profile_has_website():
-        """Test that the profile class has the website attribute."""
+    def test_profile_has_attributes(self):
+        """Test that the profile class has the correct attributes."""
+        self.assertEqual(sample_profile().website, "www.google.com")
+
+    def test_new_user_saved_to_db(self):
+        """Test that a new user must be saved to db before it can be used."""
+        test = Profile()
+        test.website = "www.yahoo.com"
+        test.fee = 222.22
+        test.active = True
+        test.camera = "Fujifilm"
+        test.bio = "This is where a bio would be. Happy face."
+        test.phone = 9876543210
+        test.user = User()
+        return test
