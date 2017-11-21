@@ -20,10 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-os.environ.get('SECRET_KEY', '')
+SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-os.environ.get('DEBUG', '')
+DEBUG = bool(os.environ.get('DEBUG', ''))
 
 ALLOWED_HOSTS = []
 
@@ -79,7 +79,10 @@ DATABASES = {
         'NAME': os.environ.get('IMAGER_DB', ''),
         'USER': os.environ.get('IMAGER_USER', ''),
         'HOST': os.environ.get('IMAGER_HOST', ''),
-        'PORT': 8000
+        'PORT': 8000,
+        'TEST': {
+            'NAME': os.environ.get('IMAGER_TEST_DB')
+        }
     }
 }
 
