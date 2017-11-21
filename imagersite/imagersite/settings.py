@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'imager_profile'
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,7 @@ DATABASES = {
         'NAME': os.environ.get('IMAGER_DB', ''),
         'USER': os.environ.get('IMAGER_USER', ''),
         'HOST': os.environ.get('IMAGER_HOST', ''),
-        'PORT': 8000,
+        'PORT': 5432,
         'TEST': {
             'NAME': os.environ.get('IMAGER_TEST_DB')
         }
