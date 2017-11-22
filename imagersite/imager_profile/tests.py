@@ -40,3 +40,23 @@ class ProfileTests(TestCase):
         test.phone = 9876543210
         test.user = User()
         return test
+
+    def test_user_built_in_adds_new_user(self):
+        """User built in class."""
+        chelsea = User(
+            username="dolewhippp",
+            email="chelseadole@gmail.com"
+        )
+        chelsea_profile = Profile(
+            website="www.chelseadole.com",
+            fee="1.00",
+            active=True,
+            camera="Canon",
+            bio="My bio",
+            phone=2069147021,
+            user=self.chelsea
+        )
+        chelsea.save()
+        all_users = User.objects.all()
+        self.assertEqual(len(all_users), 1)
+        # self.assertEquals(self.chelsea, chelsea)
