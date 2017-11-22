@@ -15,7 +15,7 @@ class FactoryUserBoi(factory.django.DjangoModelFactory):
 
         model = User
 
-    username = factory.Sequence(lambda user: '{} McFace'.format(user))
+    username = factory.Sequence(lambda user: 'McF{}ace'.format(user))
     email = factory.Sequence(lambda user: '{}@codefellows.gov'.format(user))
 
 
@@ -27,11 +27,11 @@ class FactoryProfileBoi(factory.django.DjangoModelFactory):
 
         model = Profile
 
-    website = "www.yahoo.com",
-    fee = 222.22,
-    camera = "Fujifilm",
-    bio = "This is where a bio would be. Happy face.",
-    phone = 9876543210,
+    website = "www.yahoo.com"
+    fee = 222.22
+    camera = "Fujifilm"
+    bio = "This is where a bio would be. Happy face."
+    phone = 1876543210
     user = FactoryUserBoi()
 
 
