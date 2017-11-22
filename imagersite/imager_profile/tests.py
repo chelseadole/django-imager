@@ -35,7 +35,14 @@ class ProfileTests(TestCase):
     def test_profile_must_have_created_user_class(self):
         """Test making profile without user."""
         with self.assertRaises(Exception):
-            this_will_fail = Profile()
+            this_will_fail = Profile(
+                website="www.chelseadole.com",
+                fee="1.00",
+                camera="Canon",
+                bio="My bio",
+                phone=1069147021,
+                user=User()
+            )
             this_will_fail.save()
 
     def test_profile_has_attributes_and_is_created(self):
@@ -44,7 +51,6 @@ class ProfileTests(TestCase):
         example = Profile(
             website="www.chelseadole.com",
             fee="1.00",
-            active=True,
             camera="Canon",
             bio="My bio",
             phone=1069147021,
@@ -55,18 +61,14 @@ class ProfileTests(TestCase):
 
     def test_user_built_in_adds_new_user(self):
         """User built in class."""
-        test_user = User.objects.last()
-        test_profile = Profile(
+        test_user2 = User.objects.last()
+        example2 = Profile(
             website="www.chelseadole.com",
             fee="1.00",
-            active=False,
             camera="Canon",
             bio="My bio",
-            phone=2069147021,
-            user=test_user
+            phone=1069147021,
+            user=test_user2
         )
-        all_users = User.objects.all()
-        length = len(User.objects.all())
-        self.assertEqual(len(all_users), length)
-        self.test_user.save()
-        self.assertEqual(len(all_users), length + 1)
+        self.assertEqual(example2.camera, "Canon")
+        self.assertEqual(example2.user.username, User.objects.last().username)

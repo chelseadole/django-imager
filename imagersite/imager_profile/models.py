@@ -9,7 +9,7 @@ class ProfileManager(models.Model):
 
     def get_queryset(self):
         """Super get_queryset to filter for active users."""
-        return super().get_queryset().filter(user__is_active=True)
+        return super(ProfileManager, self).get_queryset().filter(user__is_active=True)
 
 
 class Profile(models.Model):
