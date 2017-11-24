@@ -25,4 +25,14 @@ class Photo(models.Model):
 
 class Album(models.Model):
     """Define the Album class."""
-    
+
+    title = models.CharField(
+        max_length=50, unique=True)
+    description = models.CharField(
+        max_length=200, unique=True)
+    date_uploaded = models.DateField()
+    date_modified = models.DateField()
+    date_published = models.DateField()
+    published = PUBLISH
+    cover = models.CharField(
+        max_length=50)
