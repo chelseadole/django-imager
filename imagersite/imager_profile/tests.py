@@ -74,13 +74,13 @@ class ProfileTests(TestCase):
 
     def test_new_profile_isnt_active(self):
         """Ensure that a new profile is inactive."""
-        test_user = User.objects.first()
+        test_user3 = User.objects.first()
         example = Profile(
             website="www.chelseadole.com",
             fee="1.00",
             camera="Canon",
             bio="My bio",
             phone=1069147021,
-            user=test_user
+            user=test_user3
         )
         self.assertFalse(example.is_active())
