@@ -1,8 +1,7 @@
 """Various tests for our models."""
 
 from django.test import TestCase
-from django.db import models
-from imager_profile.models import ProfileManager, Profile
+from imager_profile.models import Profile
 from django.contrib.auth.models import User
 import factory
 
@@ -84,4 +83,4 @@ class ProfileTests(TestCase):
             phone=1069147021,
             user=test_user
         )
-        self.assertTrue(example.is_active())
+        self.assertFalse(example.is_active())
