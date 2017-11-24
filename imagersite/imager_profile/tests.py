@@ -72,8 +72,8 @@ class ProfileTests(TestCase):
         self.assertEqual(example2.camera, "Canon")
         self.assertEqual(example2.user.username, User.objects.last().username)
 
-    def test_new_profile_isnt_active(self):
-        """Ensure that a new profile is inactive."""
+    def test_new_profile_is_active(self):
+        """Ensure that a new profile is active."""
         test_user3 = User.objects.first()
         example = Profile(
             website="www.chelseadole.com",
@@ -83,4 +83,4 @@ class ProfileTests(TestCase):
             phone=1069147021,
             user=test_user3
         )
-        self.assertFalse(example.is_active())
+        self.assertTrue(example.is_active)
