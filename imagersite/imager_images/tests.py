@@ -1,3 +1,5 @@
+"""Tests for Album and Photo models."""
+
 from django.test import TestCase
 from imager_images.models import Album, Photo
 from django.contrib.auth.models import User
@@ -120,16 +122,17 @@ class AlbumTests(TestCase):
 
     def test_new_profile_is_active(self):
         """Ensure that a new profile is active."""
-        test_user3 = User.objects.first()
-        example = Profile(
-            website="www.chelseadole.com",
-            fee="1.00",
-            camera="Canon",
-            bio="My bio",
-            phone=1069147021,
-            user=test_user3
+        photo_owner = FactoryUserBoi.create()
+        example2 = Photo(
+            title='thenewesttitle',
+            description='thenewestdescription',
+            date_uploaded=datetime.date(2017, 1, 1),
+            date_modified=datetime.now(),
+            date_published=datetime.date(2017, 10, 1),
+            published='Private',
+            user=photo_owner
         )
-        self.assertTrue(example.is_active)
+        self.assertTrue(example2.user.email.includes('@codefellows.gov'))
 
 
 class PhotoTests(TestCase):
