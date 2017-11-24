@@ -1,6 +1,7 @@
 """Define the Photo and Album model classes."""
 
 from django.db import models
+from django.contrib.auth.models import User
 
 
 PUBLISH = (
@@ -36,3 +37,6 @@ class Album(models.Model):
     published = PUBLISH
     cover = models.CharField(
         max_length=50)
+    user = models.OneToOneField(
+        User
+    )
