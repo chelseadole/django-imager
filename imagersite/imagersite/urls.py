@@ -21,7 +21,7 @@ from imagersite.views import home_view, login_view, logout_view
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_view, name='home'),
-    # url(r'^(?P<number>\d+)/$', home_view, name='variable'),
     url(r'^login$', login_view, name='login'),
-    url(r'^logout$', logout_view, name='logout')
+    url(r'^logout$', logout_view, name='logout'),
+    url(r'^register$', register_view, name='register')
 ]
