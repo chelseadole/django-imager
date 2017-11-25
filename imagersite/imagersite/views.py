@@ -10,11 +10,16 @@ def home_view(request, number=None):
     return render(request, '/home.html', context={})
 
 
-def potato_view(request):
-    return render(request, 'lending_library/potato.html')
+def login_view(request):
+    """View for login."""
+    return render(request, 'imagersite/templates/imagersite/login.html', context={})
 
 
+def logout_view(request):
+    """View for logout."""
+    return render(request, 'imagersite/templates/imagersite/logout.html', context={})
 
 
-
-# Django Lender stuff
+def register_view(request):
+    """View for registration."""
+    return render(request, 'imagersite/templates/imagersite/register.html', context={})
