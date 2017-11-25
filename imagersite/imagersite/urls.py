@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from imagersite.views import home_view, login_view, logout_view
+from imagersite.views import home_view, login_view, logout_view, register_view
 
 
 urlpatterns = [
