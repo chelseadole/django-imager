@@ -54,7 +54,7 @@ class FactoryPhotoBoi(factory.django.DjangoModelFactory):
     user = FactoryUserBoi()
 
 
-class AlbumTests(TestCase):
+class PhotoTests(TestCase):
     """Imager Prof."""
 
     def setUp(self):
@@ -78,7 +78,7 @@ class AlbumTests(TestCase):
         self.photos = test_photos
         # self.albums = test_albums
 
-    def test_profile_has_correct_title_attribute_when_created(self):
+    def test_photo_has_correct_title_attribute_when_created(self):
         """Test that a created user has correct title attribute."""
         test_user = User.objects.first()
         example = Photo(
@@ -92,7 +92,7 @@ class AlbumTests(TestCase):
         )
         self.assertEqual(example.title, "mytitle")
 
-    def test_profile_has_correct_published_attribute_when_initialized(self):
+    def test_photo_has_correct_published_attribute_when_initialized(self):
         """Test that a created user has correct published attribute."""
         test_user = User.objects.first()
         example = Photo(
@@ -120,8 +120,8 @@ class AlbumTests(TestCase):
         )
         self.assertEqual(str(example2.date_uploaded), '2017-01-01')
 
-    def test_new_profile_is_active(self):
-        """Ensure that a new profile is active."""
+    def test_new_photo_user_has_correct_email(self):
+        """Ensure that a new photo is properly connected by checking email."""
         photo_owner = FactoryUserBoi.create()
         example2 = Photo(
             title='thenewesttitle',
@@ -135,69 +135,76 @@ class AlbumTests(TestCase):
         self.assertTrue(example2.user.email.includes('@codefellows.gov'))
 
 
-class PhotoTests(TestCase):
+class AlbumTests(TestCase):
     """Imager Prof."""
 
     def setUp(self):
-        """Generate users using Factory Boiiii."""
-        test_users = [FactoryUserBoi.create() for i in range(20)]
+        """Generate users and albums using Factory Boiiii."""
+        test_albums = [FactoryPhotoBoi.create() for i in range(20)]
+        for album in test_albums:
+            user = FactoryUserBoi.create()
+            album.user = user
 
-        for user in test_users:
-            user.set_password('percentsignbois')
+            album.user.set_password('percentsignbois')
             user.save()
 
-        self.users = test_users
+        self.albums = test_albums
 
-    def test_profile_must_have_created_user_class(self):
-        """Test making profile without user."""
-        with self.assertRaises(Exception):
-            this_will_fail = Profile(
-                website="www.chelseadole.com",
-                fee="1.00",
-                camera="Canon",
-                bio="My bio",
-                phone=1069147021,
-                user=User()
-            )
-            this_will_fail.save()
-
-    def test_profile_has_attributes_and_is_created(self):
-        """Test that a created user has correct attributes."""
+    def test_album_has_correct_title_attribute_when_created(self):
+        """Test that a created user has correct title attribute."""
         test_user = User.objects.first()
-        example = Profile(
-            website="www.chelseadole.com",
-            fee="1.00",
-            camera="Canon",
-            bio="My bio",
-            phone=1069147021,
+        example = Album(
+            title='mytitle',
+            description='description',
+            date_uploaded=datetime.date(2017, 1, 1),
+            date_modified=datetime.now(),
+            date_published=datetime.date(2017, 11, 1),
+            published='Public',
+            cover='my cover',
             user=test_user
         )
-        self.assertEqual(example.website, "www.chelseadole.com")
-        self.assertEqual(example.user.email, User.objects.first().email)
+        self.assertEqual(example.title, "description")
 
-    def test_user_built_in_adds_new_user(self):
-        """User built in class."""
+    def test_album_has_correct_published_attribute_when_initialized(self):
+        """Test that a created user has correct published attribute."""
+        test_user = User.objects.first()
+        example = Album(
+            title='yeee',
+            description='OWOWOWOWW',
+            date_uploaded=datetime.date(2017, 1, 1),
+            date_modified=datetime.now(),
+            date_published=datetime.date(2017, 10, 1),
+            published='Shared',
+            cover='my cover',
+            user=test_user
+        )
+        self.assertEqual(example.published, "Shared")
+
+    def test_album_has_correct_cover_attr(self):
+        """Test that a created user has cover name attr."""
+        test_user = User.objects.first()
+        example = Album(
+            title='yeee',
+            description='OWOWOWOWW',
+            date_uploaded=datetime.date(2017, 1, 1),
+            date_modified=datetime.now(),
+            date_published=datetime.date(2017, 10, 1),
+            published='Shared',
+            cover='my cover',
+            user=test_user
+        )
+        self.assertEqual(example.cover, "my cover")
+
+    def test_datetime_is_working_correctly(self):
+        """User built in dattime of user works."""
         test_user2 = User.objects.last()
-        example2 = Profile(
-            website="www.chelseadole.com",
-            fee="1.00",
-            camera="Canon",
-            bio="My bio",
-            phone=1069147021,
+        example2 = Photo(
+            title='yeee',
+            description='OWOWOWOWW',
+            date_uploaded=datetime.date(2017, 3, 20),
+            date_modified=datetime.now(),
+            date_published=datetime.date(2017, 10, 1),
+            published='Private',
             user=test_user2
         )
-        self.assertEqual(example2.camera, "Canon")
-        self.assertEqual(example2.user.username, User.objects.last().username)
-
-    def test_new_profile_is_active(self):
-        """Ensure that a new profile is active."""
-        test_user3 = User.objects.first()
-        example = Profile(
-            website="www.chelseadole.com",
-            fee="1.00",
-            camera="Canon",
-            bio="My bio",
-            phone=1069147021,
-            user=test_user3
-        )
-        self.assertTrue(example.is_active)
+        self.assertEqual(str(example2.date_uploaded), '2017-03-20')
