@@ -16,7 +16,7 @@ class Photo(models.Model):
 
     title = models.CharField(
         max_length=50,
-        uniqe=True)
+        unique=True)
     description = models.CharField(
         max_length=200)
     date_uploaded = models.DateField()
