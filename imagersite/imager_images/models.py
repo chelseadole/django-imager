@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 PUBLISH = (
     ('Private', 'Private'),
     ('Shared', 'Shared'),
-    ('Public', 'Public'),
+    ('Public', 'Public')
 )
 
 
@@ -15,43 +15,43 @@ class Photo(models.Model):
     """Define the Photo class."""
 
     title = models.CharField(
-<<<<<<< HEAD
-        max_length=50)
-=======
         max_length=50,
         unique=True)
->>>>>>> ebfb47b0d9a69d3c55d66ab4e91413021664241c
+    img = models.ImageField(upload_to='documents/%Y/%m/%d')
     description = models.CharField(
         max_length=200)
-    date_uploaded = models.DateField()
-    date_modified = models.DateField()
-    date_published = models.DateField()
-    published = PUBLISH
-<<<<<<< HEAD
-=======
-    user = models.OneToOneField(
-        User
+    date_uploaded = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    date_published = models.DateTimeField()
+    published = models.CharField(
+        choices=PUBLISH,
+        max_length=10
     )
->>>>>>> ebfb47b0d9a69d3c55d66ab4e91413021664241c
+    user = models.ForeignKey(
+        User,
+        related_name='photo'
+    )
 
 
 class Album(models.Model):
     """Define the Album class."""
 
-<<<<<<< HEAD
-=======
-    photos = []
->>>>>>> ebfb47b0d9a69d3c55d66ab4e91413021664241c
+    photos = models.ManyToManyField(Photo)
     title = models.CharField(
         max_length=50, unique=True)
     description = models.CharField(
-        max_length=200, unique=True)
-    date_uploaded = models.DateField()
-    date_modified = models.DateField()
-    date_published = models.DateField()
-    published = PUBLISH
+        max_length=200)
+    date_uploaded = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    date_published = models.DateTimeField(auto_now_add=True)
+    published = models.CharField(
+        choices=PUBLISH,
+        max_length=10
+    )
     cover = models.CharField(
-        max_length=50)
-    user = models.OneToOneField(
-        User
+        max_length=50
+    )
+    user = models.ForeignKey(
+        User,
+        related_name='album'
     )

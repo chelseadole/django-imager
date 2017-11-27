@@ -2,6 +2,8 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class ProfileManager(models.Model):
@@ -29,7 +31,7 @@ class Profile(models.Model):
         ('BW', 'Black & White'),
         ('Other', 'Other')
     )
-
+    # objects = models.ModelManager()
     website = models.URLField()
     location = models.CharField(
         max_length=50)
@@ -57,3 +59,11 @@ class Profile(models.Model):
     def __repr__(self):
         """Repr method for Profile."""
         return "Website: {}, Location: {}, Fee: {}, Active: {}, Camera: {}, Services: {}, Bio: {}, Phone: {}, User: {}".format(self.website, self.location, self.fee, self.active, self.camera, self.bio, self.phone, self.user)
+
+
+@receiver(post_save, sender=User)
+def create_profile(sender, **kwargs):
+    """Receiver to make profile when User is made."""
+    if kwargs['created']:
+        profile = Profile(user=kwargs['instance'])
+        profile.save()
