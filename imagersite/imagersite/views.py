@@ -1,6 +1,7 @@
 """Views for Django Imager."""
 
 from django.shortcuts import render
+from registration.backends.hmac.views import RegistrationView
 
 
 def home_view(request, number=None):
