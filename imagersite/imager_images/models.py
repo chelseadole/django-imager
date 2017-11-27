@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 PUBLISH = (
     ('Private', 'Private'),
     ('Shared', 'Shared'),
-    ('Public', 'Public'),
+    ('Public', 'Public')
 )
 
 
@@ -17,31 +17,41 @@ class Photo(models.Model):
     title = models.CharField(
         max_length=50,
         unique=True)
+    img = models.ImageField(upload_to='documents/%Y/%m/%d')
     description = models.CharField(
         max_length=200)
-    date_uploaded = models.DateField()
-    date_modified = models.DateField()
-    date_published = models.DateField()
-    published = PUBLISH
-    user = models.OneToOneField(
-        User
+    date_uploaded = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    date_published = models.DateTimeField()
+    published = models.CharField(
+        choices=PUBLISH,
+        max_length=10
+    )
+    user = models.ForeignKey(
+        User,
+        related_name='photo'
     )
 
 
 class Album(models.Model):
     """Define the Album class."""
 
-    photos = []
+    photos = models.ManyToManyField(Photo)
     title = models.CharField(
         max_length=50, unique=True)
     description = models.CharField(
-        max_length=200, unique=True)
-    date_uploaded = models.DateField()
-    date_modified = models.DateField()
-    date_published = models.DateField()
-    published = PUBLISH
+        max_length=200)
+    date_uploaded = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    date_published = models.DateTimeField(auto_now_add=True)
+    published = models.CharField(
+        choices=PUBLISH,
+        max_length=10
+    )
     cover = models.CharField(
-        max_length=50)
-    user = models.OneToOneField(
-        User
+        max_length=50
+    )
+    user = models.ForeignKey(
+        User,
+        related_name='album'
     )
