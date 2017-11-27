@@ -7,7 +7,7 @@ def home_view(request, number=None):
     """View for the home page."""
     # template = loader.get_template('lending_library/home.html')
     # response_body = template.render({"potato": number})
-    return render(request, '/home.html', context={})
+    return render(request, 'imagersite/templates/imagersite/home.html', context={})
 
 
 def login_view(request):
