@@ -58,7 +58,7 @@ class Profile(models.Model):
 
     def __repr__(self):
         """Repr method for Profile."""
-        return "Website: {}, Location: {}, Fee: {}, Active: {}, Camera: {}, Services: {}, Bio: {}, Phone: {}, User: {}".format(self.website, self.location, self.fee, self.active, self.camera, self.bio, self.phone, self.user)
+        return "Website: {}, Location: {}, Fee: {}, Active: {}, Camera: {}, Services: {}, Bio: {}, Phone: {}, User: {}".format(self.website, self.location, self.fee, self.active, self.camera, self.services, self.bio, self.phone, self.user.username)
 
 
 @receiver(post_save, sender=User)
