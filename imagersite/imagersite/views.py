@@ -6,7 +6,10 @@ from registration.backends.hmac.views import RegistrationView
 
 def home_view(request, number=None):
     """View for the home page."""
-    return render(request, 'imagersite/home.html', context={})
+    login_context = {}
+    if request.user.username:
+        login_context = {"username": request.user.username}
+    return render(request, 'imagersite/home.html', context=login_context)
 
 
 def login_view(request):

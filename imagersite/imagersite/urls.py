@@ -24,7 +24,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
-    # url(r'^accounts/register$', include('registration.backends.hmac.urls')),
     url(r'^$', home_view, name='home'),
 ]
 
