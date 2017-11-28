@@ -1,14 +1,11 @@
-<<<<<<< HEAD
-from django.test import TestCase
-
-# Create your tests here.
-=======
 """Tests for Album and Photo models."""
-
 from django.test import TestCase
+
 from imager_images.models import Album, Photo
 from django.contrib.auth.models import User
 import factory
+import os
+from imagersite.settings import BASE_DIR
 from datetime import datetime
 
 
@@ -20,26 +17,8 @@ class FactoryUserBoi(factory.django.DjangoModelFactory):
 
         model = User
 
-    username = factory.Sequence(lambda user: 'McF{}ace'.format(user))
+    username = factory.Sequence(lambda user: 'NewThing{}3'.format(user))
     email = factory.Sequence(lambda user: '{}@codefellows.gov'.format(user))
-
-
-class FactoryAlbumBoi(factory.django.DjangoModelFactory):
-    """Factory for creating test Albums."""
-
-    class Meta:
-        """Meta class."""
-
-        model = Album
-
-    title = 'My album title'
-    description = 'blargyblarg'
-    date_uploaded = datetime.date(2017, 10, 1)
-    date_modified = datetime.now()
-    date_published = datetime.date(2017, 10, 5)
-    published = 'Public'
-    cover = 2  # user goes here
-    user = FactoryUserBoi()
 
 
 class FactoryPhotoBoi(factory.django.DjangoModelFactory):
@@ -52,165 +31,95 @@ class FactoryPhotoBoi(factory.django.DjangoModelFactory):
 
     title = 'my photo title'
     description = 'wow what a great photo'
-    date_uploaded = datetime.date(2017, 10, 1)
+    date_uploaded = datetime.strptime('2017, 10, 1', '%Y, %m, %d')
     date_modified = datetime.now()
-    date_published = datetime.date(2017, 10, 5)
+    date_published = datetime.strptime('2017, 10, 5', '%Y, %m, %d')
     published = 'Public'
-    user = FactoryUserBoi()
+    # user = FactoryUserBoi.create()
 
 
-class PhotoTests(TestCase):
+class PhotoAndAlbumTests(TestCase):
     """Imager Prof."""
 
     def setUp(self):
         """Generate users using Factory Boiiii."""
-        # test_users = [FactoryUserBoi.create() for i in range(20)]
-        # for user in test_users:
-        #     user.set_password('percentsignbois')
-        #     user.save()
+        self.photos = []
+        user = FactoryUserBoi.create()
+        user.set_password('percentsignbois')
+        user.save()
 
-        test_photos = [FactoryPhotoBoi.create() for i in range(20)]
-        # test_albums = [FactoryAlbumBoi.create() for i in range[2]]
-        for photo in test_photos:
-            user = FactoryUserBoi.create()
+        user.profile.location = "Seattle"
+        user.profile.save()
+
+        users_album = Album(user=user, title="Albumerino", published="Public")
+        users_album.save()
+
+        for i in range(10):
+            photo = FactoryPhotoBoi.build()
             photo.user = user
-            # if i % 2 == 0:
-            #     test_albums[i].user = user
-            photo.user.set_password('percentsignbois')
-            user.save()
+            photo.save()
+            users_album.photos.add(photo)
+            self.photos.append(photo)
 
-        # self.users = test_users
-        self.photos = test_photos
-        # self.albums = test_albums
+        self.album = users_album
+        self.profile = user.profile
+        self.user = user
+
+    # Profile tests below
+
+    def test_profile_exists_on_user(self):
+        """Test profile was created and has Seattle location."""
+        self.assertTrue(self.profile is not None)
+
+    def test_profile_location_is_seattle(self):
+        """Test profile location has been set to Seattle."""
+        self.assertEqual(self.profile.location, "Seattle")
+
+    # Photo tests below
+
+    def test_num_photos_created(self):
+        """Test the number of photo objects made by the Boi."""
+        self.assertTrue(len(self.photos) == 10)
 
     def test_photo_has_correct_title_attribute_when_created(self):
         """Test that a created user has correct title attribute."""
-        test_user = User.objects.first()
-        example = Photo(
-            title='mytitle',
-            description='description',
-            date_uploaded=datetime.date(2017, 1, 1),
-            date_modified=datetime.now(),
-            date_published=datetime.date(2017, 11, 1),
-            published='Public',
-            user=test_user
-        )
-        self.assertEqual(example.title, "mytitle")
+        self.assertEqual(self.photos[0].title, "my photo title")
 
-    def test_photo_has_correct_published_attribute_when_initialized(self):
-        """Test that a created user has correct published attribute."""
-        test_user = User.objects.first()
-        example = Photo(
-            title='yeee',
-            description='OWOWOWOWW',
-            date_uploaded=datetime.date(2017, 1, 1),
-            date_modified=datetime.now(),
-            date_published=datetime.date(2017, 10, 1),
-            published='Private',
-            user=test_user
-        )
-        self.assertEqual(example.published, "Private")
-
-    def test_user_built_in_adds_new_user(self):
-        """User built in class."""
-        test_user2 = User.objects.last()
-        example2 = Photo(
-            title='yeee',
-            description='OWOWOWOWW',
-            date_uploaded=datetime.date(2017, 1, 1),
-            date_modified=datetime.now(),
-            date_published=datetime.date(2017, 10, 1),
-            published='Private',
-            user=test_user2
-        )
-        self.assertEqual(str(example2.date_uploaded), '2017-01-01')
+    def test_photo_user_exists(self):
+        """Test that Photo has user."""
+        self.assertTrue(self.user is not None)
 
     def test_new_photo_user_has_correct_email(self):
         """Ensure that a new photo is properly connected by checking email."""
-        photo_owner = FactoryUserBoi.create()
-        example2 = Photo(
-            title='thenewesttitle',
-            description='thenewestdescription',
-            date_uploaded=datetime.date(2017, 1, 1),
-            date_modified=datetime.now(),
-            date_published=datetime.date(2017, 10, 1),
-            published='Private',
-            user=photo_owner
-        )
-        self.assertTrue(example2.user.email.includes('@codefellows.gov'))
+        self.assertTrue("@codefellows.gov" in self.user.email)
+        self.assertEqual(self.user, self.album.user)
 
+    # Album Tests below
 
-class AlbumTests(TestCase):
-    """Imager Prof."""
-
-    def setUp(self):
-        """Generate users and albums using Factory Boiiii."""
-        test_albums = [FactoryPhotoBoi.create() for i in range(20)]
-        for album in test_albums:
-            user = FactoryUserBoi.create()
-            album.user = user
-
-            album.user.set_password('percentsignbois')
-            user.save()
-
-        self.albums = test_albums
+    def test_album_boi_made_albums(self):
+        """Test utility of FactoryBoi."""
+        albums = [self.album]
+        self.assertTrue(len(albums) == 1)
 
     def test_album_has_correct_title_attribute_when_created(self):
         """Test that a created user has correct title attribute."""
-        test_user = User.objects.first()
-        example = Album(
-            title='mytitle',
-            description='description',
-            date_uploaded=datetime.date(2017, 1, 1),
-            date_modified=datetime.now(),
-            date_published=datetime.date(2017, 11, 1),
-            published='Public',
-            cover='my cover',
-            user=test_user
-        )
-        self.assertEqual(example.title, "description")
+        self.assertEqual(self.album.title, "Albumerino")
 
     def test_album_has_correct_published_attribute_when_initialized(self):
         """Test that a created user has correct published attribute."""
-        test_user = User.objects.first()
-        example = Album(
-            title='yeee',
-            description='OWOWOWOWW',
-            date_uploaded=datetime.date(2017, 1, 1),
-            date_modified=datetime.now(),
-            date_published=datetime.date(2017, 10, 1),
-            published='Shared',
-            cover='my cover',
-            user=test_user
-        )
-        self.assertEqual(example.published, "Shared")
+        self.assertEqual(self.album.published, "Public")
 
-    def test_album_has_correct_cover_attr(self):
-        """Test that a created user has cover name attr."""
-        test_user = User.objects.first()
-        example = Album(
-            title='yeee',
-            description='OWOWOWOWW',
-            date_uploaded=datetime.date(2017, 1, 1),
-            date_modified=datetime.now(),
-            date_published=datetime.date(2017, 10, 1),
-            published='Shared',
-            cover='my cover',
-            user=test_user
-        )
-        self.assertEqual(example.cover, "my cover")
+    def test_album_has_user(self):
+        """Test that Album class has a user."""
+        self.assertTrue(self.album.user is not None)
 
-    def test_datetime_is_working_correctly(self):
-        """User built in dattime of user works."""
-        test_user2 = User.objects.last()
-        example2 = Photo(
-            title='yeee',
-            description='OWOWOWOWW',
-            date_uploaded=datetime.date(2017, 3, 20),
-            date_modified=datetime.now(),
-            date_published=datetime.date(2017, 10, 1),
-            published='Private',
-            user=test_user2
-        )
-        self.assertEqual(str(example2.date_uploaded), '2017-03-20')
->>>>>>> ebfb47b0d9a69d3c55d66ab4e91413021664241c
+    def test_album_has_user_and_user_has_attributes(self):
+        """Test that Album class has a user."""
+        self.assertTrue("codefellows.gov" in self.album.user.email)
+
+    def tearDown(self):
+        """Tear down testing."""
+        delete_1 = os.path.join(BASE_DIR + 'imager_images', 'confusables.json')
+        delete_2 = os.path.join(BASE_DIR + 'imager_images', 'categories.json')
+        os.system('rm ' + delete_1)
+        os.system('rm ' + delete_2)

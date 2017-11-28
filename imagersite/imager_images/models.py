@@ -15,9 +15,8 @@ class Photo(models.Model):
     """Define the Photo class."""
 
     title = models.CharField(
-        max_length=50,
-        unique=True)
-    img = models.ImageField(upload_to='documents/%Y/%m/%d')
+        max_length=50)
+    img = models.ImageField(upload_to='images')
     description = models.CharField(
         max_length=200)
     date_uploaded = models.DateTimeField(auto_now_add=True)
@@ -36,7 +35,7 @@ class Photo(models.Model):
 class Album(models.Model):
     """Define the Album class."""
 
-    photos = models.ManyToManyField(Photo)
+    photos = models.ManyToManyField(Photo, related_name='album')
     title = models.CharField(
         max_length=50, unique=True)
     description = models.CharField(
