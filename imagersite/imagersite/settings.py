@@ -108,6 +108,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+ACCOUNT_ACTIVATION_DAYS = 7
+
 STATICFILE_DIRS = [
     os.path.join(BASE_DIR, 'templates')
 ]
@@ -133,3 +135,4 @@ LOGIN_REDIRECT_URL = 'home'
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'MEDIA')
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

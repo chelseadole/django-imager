@@ -1,4 +1,4 @@
-"""imagersite URL Configuration
+"""Imagersite URL Configuration.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.11/topics/http/urls/
@@ -24,6 +24,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
+    # url(r'^accounts/register$', include('registration.backends.hmac.urls')),
     url(r'^$', home_view, name='home'),
 ]
 

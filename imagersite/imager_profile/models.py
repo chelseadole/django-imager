@@ -65,5 +65,5 @@ class Profile(models.Model):
 def create_profile(sender, **kwargs):
     """Receiver to make profile when User is made."""
     if kwargs['created']:
-        profile = Profile(user=kwargs['instance'])
+        profile = Profile(user=kwargs['instance'], fee=20.00, phone=2060000000)
         profile.save()
