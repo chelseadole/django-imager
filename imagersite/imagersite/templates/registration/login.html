@@ -1,12 +1,24 @@
 {% extends 'imagersite/base.html' %}
 {% load static %}
 {% block title %} Login {% endblock %}
-
 {% block content %}
-<h2>Login</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
+
+<div class="container">
+
+  <div class="bg-faded p-4 my-4">
+    <hr class="divider">
+    <hr class="divider">
+    <div class="row">
+      <div class="col-lg-6">
+        <img class="img-fluid mb-4 mb-lg-0" src="../../static/img/slide-2.jpg" alt="">
+        <h2>Login</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
