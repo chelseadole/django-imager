@@ -5,7 +5,6 @@ from registration.backends.hmac.views import RegistrationView
 from imager_profile.models import Profile
 from imager_images.models import Album, Photo
 from django.contrib.auth.models import User
-from django.contrib.auth.models import DoesNotExist
 
 
 def home_view(request, number=None):
@@ -51,7 +50,7 @@ def alt_profile_view(request):
     try:
         user_object = User.objects.get(username=request.path[1:])
     except User.DoesNotExist:
-        return render(request, 'imagersite/alt_profile.html', context={"user_exists": False})
+        return render(request, 'imagersite/altprofile.html', context={"user_exists": False})
     profile_object = Profile.objects.get(user=user_object)
     alt_profile_context_dict = {
         "user_exists": True,
