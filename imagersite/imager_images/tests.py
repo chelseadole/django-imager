@@ -116,10 +116,3 @@ class PhotoAndAlbumTests(TestCase):
     def test_album_has_user_and_user_has_attributes(self):
         """Test that Album class has a user."""
         self.assertTrue("codefellows.gov" in self.album.user.email)
-
-    def tearDown(self):
-        """Tear down testing."""
-        delete_1 = os.path.join(BASE_DIR + 'imager_images', 'confusables.json')
-        delete_2 = os.path.join(BASE_DIR + 'imager_images', 'categories.json')
-        os.system('rm ' + delete_1)
-        os.system('rm ' + delete_2)
