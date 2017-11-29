@@ -25,3 +25,8 @@ def logout_view(request):
 def register_view(request):
     """View for registration."""
     return render(request, 'imagersite/register.html', context={})
+
+
+def profile_view(request):
+    """View for profile."""
+    return render(request, 'imagersite/profile.html', context={})

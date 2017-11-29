@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^$', home_view, name='home'),
+    url(r'^profile/', name='profile')
+    url(r'^profile/(?<username>/a-z, A-Z$', name='alt_profile')
 ]
 
 if settings.DEBUG:
