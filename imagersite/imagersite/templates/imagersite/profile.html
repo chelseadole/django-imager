@@ -13,6 +13,20 @@
       <div class="col-lg-6">
         <img class="img-fluid mb-4 mb-lg-0" src="img/slide-2.jpg" alt="">
       </div>
+      {% if my_account %}
+      <div class="col-lg-6">
+        <h3>Your Account Stats:
+        <ul>
+          <li>Total Photos: {{ photo_count }}
+          <li>Total Albums:</li>
+          <ul>
+            <li>Public: {{ public_album_count }}</li>
+            <li>Private: {{ private_album_count }}</li>
+          </ul>
+
+        </ul>
+      </div>
+      {% endif %}
       <div class="col-lg-6">
         <h3>{{ user.username }}'s Info:
         <ul>

@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.conf.urls import url, include
 from django.contrib import admin
-from imagersite.views import home_view
+from imagersite.views import home_view, profile_view
 from imagersite import settings
 from django.conf.urls.static import static
 
@@ -25,8 +25,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^$', home_view, name='home'),
-    url(r'^profile/', name='profile')
-    url(r'^profile/(?<username>/a-z, A-Z$', name='alt_profile')
+    url(r'^profile/', profile_view, name='profile')
+    # url(r'^profile/(?<username>/a-z, A-Z$', name='alt_profile')
 ]
 
 if settings.DEBUG:

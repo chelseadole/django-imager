@@ -29,4 +29,7 @@ def register_view(request):
 
 def profile_view(request):
     """View for profile."""
-    return render(request, 'imagersite/profile.html', context={})
+    import pdb; pdb.set_trace()
+    if not request.user.username:
+        return render(request, 'imagersite/profile.html', context={"logged_out_alert": "You are not logged in. Log in to view your profile!", "logged_in": False})
+    import pdb; pdb.set_trace()
