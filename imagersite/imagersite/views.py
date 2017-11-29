@@ -2,6 +2,9 @@
 
 from django.shortcuts import render
 from registration.backends.hmac.views import RegistrationView
+from imager_profile.models import Profile
+from imager_images.models import Album, Photo
+from django.contrib.auth.models import User
 
 
 def home_view(request, number=None):
@@ -29,7 +32,19 @@ def register_view(request):
 
 def profile_view(request):
     """View for profile."""
-    import pdb; pdb.set_trace()
-    if not request.user.username:
-        return render(request, 'imagersite/profile.html', context={"logged_out_alert": "You are not logged in. Log in to view your profile!", "logged_in": False})
+    if request.user.username == '':
+        return render(request, 'imagersite/profile.html', context={"logged_in": False})
+    else:
+        user_object = User.objects.get(username=request.user.username)
+        profile_object = Profile.objects.get(user=user_object)
+        profile_context_dict = {
+            "logged_in": True,
+            "user": user_object,
+            "profile": profile_object
+        }
+        return render(request, 'imagersite/profile.html', context=profile_context_dict)
+
+
+def alt_profile_view(request):
+    """View for non-user profile."""
     import pdb; pdb.set_trace()
