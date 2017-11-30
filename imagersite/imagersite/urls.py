@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^$', home_view, name='home'),
     url(r'^profile/', include('imager_profile.urls')),
+    url(r'^images/', include('imager_images.urls'))
 ]
 
 if settings.DEBUG:
