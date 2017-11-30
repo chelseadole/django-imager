@@ -1,0 +1,32 @@
+{% extends 'imagersite/base.html' %}
+{% block content %}
+
+<div class="bg-faded p-4 my-4">
+    <hr class="divider">
+    <h2 class="text-center text-lg text-uppercase my-0">
+      <strong>{{ album.title }}</strong>
+    </h2>
+    <h3 class="text-center text-lg text-uppercase my-0">
+      <strong>{{ album.description }}</strong>
+    </h3>
+    <ul>
+      <li>Date uploaded: {{ album.date_uploaded }}</li>
+      <li>Date published: {{ album.date_published }}</li>
+      <li>Privacy: {{ album.published}}</li>
+    </ul>
+    <hr class="divider">
+    {% for photo in photos %}
+    <div class="row">
+      <div class="col-md-4 mb-4 mb-md-0">
+        <div class="card h-100">
+          <img class="card-img-top" src="{{ photo.img.url }}" alt="{{ photo.title}}">
+          <div class="card-body text-center">
+            <h4 class="card-title m-0">{{ photo.title }}
+            </h4>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}

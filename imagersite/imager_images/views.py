@@ -1,9 +1,7 @@
 """Imager image views."""
 
-from django.shortcuts import render
 from imager_images.models import Album, Photo
 from django.views.generic import ListView, DetailView
-from django.contrib.auth.models import User
 
 
 class LibraryView(ListView):
@@ -51,3 +49,20 @@ class PhotoView(DetailView):
 
     template_name = "imagersite/photo_detail.html"
     model = Photo
+
+
+class AlbumView(DetailView):
+    """Detail view of one album and its photos."""
+
+    template_name = "imagersite/album_detail.html"
+    model = Album
+
+    def get_context_data(self, **kwargs):
+        """Context data for Album view."""
+        queryset = Album.objects.filter(id=self.kwargs['pk'])
+        album = queryset.get()
+        photos = album.photos.all()
+        return {
+            'album': album,
+            'album_photos': photos
+        }
