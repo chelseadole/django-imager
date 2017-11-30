@@ -2,12 +2,13 @@
 
 from django.shortcuts import render
 from imager_images.models import Album, Photo
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.models import User
 
 
 class LibraryView(ListView):
-    """."""
+    """Library of user's albums."""
+
     template_name = "imagersite/library.html"
     model = Album
     exclude = []
@@ -15,6 +16,7 @@ class LibraryView(ListView):
 
 class AlbumGalleryView(ListView):
     """Gallery of all public albums."""
+
     template_name = "imagersite/album_gallery.html"
     model = Album
     exclude = []
@@ -30,6 +32,7 @@ class AlbumGalleryView(ListView):
 
 class PhotoGalleryView(ListView):
     """Gallery of all public photos."""
+
     template_name = "imagersite/photo_gallery.html"
     model = Photo
     exclude = []
@@ -41,3 +44,10 @@ class PhotoGalleryView(ListView):
         return {
             "photos": photos
         }
+
+
+class PhotoView(DetailView):
+    """Detail view of one photo."""
+
+    template_name = "imagersite/photo_detail.html"
+    model = Photo
