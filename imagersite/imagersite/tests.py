@@ -25,7 +25,7 @@ class ViewTests(TestCase):
         parsed = soup(response.content, 'html.parser')
         self.assertTrue('Welcome, ' not in parsed)
 
-    def test_homeview_retrieves_correct_template(self):
+    def test_home_view_retrieves_correct_template(self):
         """Test that when homeview loads, it loads to base.html."""
         response = self.client.get(reverse_lazy('home'))
         self.assertTemplateUsed(response, 'imagersite/base.html')
@@ -40,6 +40,16 @@ class ViewTests(TestCase):
         login_attempt = {'username': 'thewronglogin', 'password': 'thewrongpassword'}
         response = self.client.post('/accounts/login/', login_attempt)
         page_html = soup(response.content, 'html.parser')
-        import pdb; pdb.set_trace()
         self.assertTemplateUsed(response, 'registration/login.html')
-        self.assertTrue("Please enter a correct username and password. Note that both fields may be case-sensitive." in page_html)
+        self.assertTrue("Please enter a correct username and password. Note that both fields may be case-sensitive." in str(page_html))
+
+    def test_library_view_retrieves_correct_template(self):
+        """Test that when libraryview loads, it loads to library.html."""
+        response = self.client.get(reverse_lazy('library'))
+        self.assertTemplateUsed(response, 'imagersite/library.html')
+
+    def test_library_view_has_correct_content(self):
+        """Test that when you go to Home without being logged in, the correct template comes through."""
+        response = self.client.get(reverse_lazy('library'))
+        parsed = soup(response.content, 'html.parser')
+        self.assertTrue('Albums' in str(parsed))
