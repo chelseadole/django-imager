@@ -23,7 +23,9 @@ class AlbumGalleryView(ListView):
         """Context data for AlbumGallery."""
         queryset = Album.objects.filter(published="Public")
         albums = queryset.all()
-        return {"albums": albums}
+        return {
+            "albums": albums
+        }
 
 
 class PhotoGalleryView(ListView):
@@ -33,5 +35,9 @@ class PhotoGalleryView(ListView):
     exclude = []
 
     def get_context_data(self):
-        """Context data for
-
+        """Context data for PhotoGallery."""
+        queryset = Photo.objects.filter(published="Public")
+        photos = queryset.all()
+        return {
+            "photos": photos
+        }
