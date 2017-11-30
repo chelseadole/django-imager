@@ -24,7 +24,8 @@ class Photo(models.Model):
     date_published = models.DateTimeField()
     published = models.CharField(
         choices=PUBLISH,
-        max_length=10
+        max_length=10,
+        default="Public"
     )
     user = models.ForeignKey(
         User,
@@ -45,7 +46,8 @@ class Album(models.Model):
     date_published = models.DateTimeField(auto_now_add=True)
     published = models.CharField(
         choices=PUBLISH,
-        max_length=10
+        max_length=10,
+        default="Public"
     )
     cover = models.CharField(
         max_length=50
