@@ -40,6 +40,5 @@ class ViewTests(TestCase):
         login_attempt = {'username': 'thewronglogin', 'password': 'thewrongpassword'}
         response = self.client.post('/accounts/login/', login_attempt)
         page_html = soup(response.content, 'html.parser')
-        import pdb; pdb.set_trace()
         self.assertTemplateUsed(response, 'registration/login.html')
-        self.assertTrue("Please enter a correct username and password. Note that both fields may be case-sensitive." in page_html)
+        self.assertTrue("Please enter a correct username and password. Note that both fields may be case-sensitive." in str(page_html))
