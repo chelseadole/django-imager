@@ -21,7 +21,7 @@ class Photo(models.Model):
         max_length=200)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    date_published = models.DateTimeField(null=True)
+    date_published = models.DateTimeField(auto_now_add=True)
     published = models.CharField(
         choices=PUBLISH,
         max_length=10,
