@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.conf.urls import url, include
 from django.contrib import admin
-from imagersite.views import home_view
+from imagersite.views import HomeView
 from imagersite import settings
 from django.conf.urls.static import static
 
@@ -24,7 +24,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('registration.backends.hmac.urls')),
-    url(r'^$', home_view, name='home'),
+    url(r'^$', HomeView.as_view(), name='home'),
     url(r'^profile/', include('imager_profile.urls')),
     url(r'^images/', include('imager_images.urls'))
 ]

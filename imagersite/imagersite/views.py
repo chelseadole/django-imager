@@ -1,30 +1,35 @@
 """Views for Django Imager."""
 
-from django.shortcuts import render
-from registration.backends.hmac.views import RegistrationView
-from imager_profile.models import Profile
-from imager_images.models import Album, Photo
-from django.contrib.auth.models import User
+from django.views.generic import TemplateView
 
 
-def home_view(request, number=None):
-    """View for the home page."""
-    login_context = {}
-    if request.user.username:
-        login_context = {"username": request.user.username}
-    return render(request, 'imagersite/home.html', context=login_context)
+class HomeView(TemplateView):
+    """Home view."""
+
+    template_name = "imagersite/home.html"
+
+    def get_context_data(self, **kwargs):
+        """."""
+        context = super(HomeView, self).get_context_data(**kwargs)
+        user = context['view'].request.user
+        if user:
+            return {"username": user}
+        return {}
 
 
-def login_view(request):
-    """View for login."""
-    return render(request, 'imagersite/login.html', context={})
+class LoginView(TemplateView):
+    """Login page."""
+
+    template_name = "imagersite/login.html"
 
 
-def logout_view(request):
-    """View for logout."""
-    return render(request, 'imagersite/logout.html', context={})
+class LogoutView(TemplateView):
+    """Logout."""
+
+    template_name = "imagersite/logout.html"
 
 
-def register_view(request):
-    """View for registration."""
-    return render(request, 'imagersite/register.html', context={})
+class RegisterView(TemplateView):
+    """Register a new user."""
+
+    template_name = "imagersite/registration_form.html"

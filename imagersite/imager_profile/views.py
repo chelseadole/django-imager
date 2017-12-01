@@ -4,10 +4,10 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from imager_profile.models import Profile
 from imager_images.models import Photo, Album
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 
-class ProfileView(DetailView):
+class ProfileView(ListView):
     """View for user profile page."""
 
     model = User
@@ -15,21 +15,24 @@ class ProfileView(DetailView):
 
     def get_context_data(self, **kwargs):
         """Context data for user stats."""
-        if not kwargs:
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        user = context['view'].request.user
+        if not user:
             context = {"logged_in": False}
         else:
-            user_object = User.objects.get(username=request.user.username)
-            prof_object = user_object.profile
-            albums_pub = Album.objects.filter(user=user_object, published="Public").count()
-            albums_pri = Album.objects.filter(user=user_object, published="Private").count()
-            photos = Photo.objects.filter(user=user_object).count()
+            prof_object = user.profile
+            albums_pub = Album.objects.filter(user=user, published="Public").count()
+            albums_pri = Album.objects.filter(user=user, published="Private").count()
+            photos_pub = Photo.objects.filter(user=user, published="Public").count()
+            photos_pri = Photo.objects.filter(user=user, published="Public").count()
             context = {
                 "logged_in": True,
-                "user": user_object,
+                "user": user,
                 "profile": prof_object,
                 "public_albums": albums_pub,
                 "private_albums": albums_pri,
-                "total_photos": photos
+                "photos_pub": photos_pub,
+                "photos_pri": photos_pri
             }
         return context
 
@@ -39,11 +42,13 @@ class AltProfileView(DetailView):
 
     model = User
     template_name = "imagersite/altprofile.html"
+    slug_field = 'username'
 
-    def get_context_data(self, user):
+    def get_context_data(self, **kwargs):
         """Context data for alt profile."""
         try:
-            user_object = User.objects.get(username=user)
+            context = super(AltProfileView, self).get_context_data(**kwargs)
+            user_object = User.objects.get(username=self.kwargs['slug'])
             profile_object = user_object.profile
             context = {
                 "user_exists": True,
@@ -52,4 +57,5 @@ class AltProfileView(DetailView):
             }
             return context
         except User.DoesNotExist:
-            return {"user_exists": False}
+            return {'user_exists': False}
+
