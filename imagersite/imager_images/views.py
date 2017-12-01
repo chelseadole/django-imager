@@ -1,7 +1,8 @@
 """Imager image views."""
 
 from imager_images.models import Album, Photo
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
+from django import forms
 
 
 class LibraryView(ListView):
@@ -65,3 +66,20 @@ class AlbumView(ListView):
         return {
             'album': album
         }
+
+
+class AddAlbumView(CreateView):
+    """Create a new album."""
+
+    model = Album
+    template_name = "imagersite/add_album.html"
+    fields = ["title", "description", "cover", "published"]
+    success_url = 'library'
+
+    def post(self, request, *args, **kwargs):
+        """Post info for new album."""
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
