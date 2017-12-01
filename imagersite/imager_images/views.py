@@ -90,13 +90,13 @@ class AddPhotoView(CreateView):
 
     model = Photo
     template_name = "imagersite/add_photo.html"
-    fields = ["title", "description", "img", "published"]
-    success_url = 'library'
+    success_url = '/images/library'
     form_class = NewPhoto
 
     def post(self, request, *args, **kwargs):
         """Post info for new photo."""
-        form = self.get_form()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
         if form.is_valid():
             return self.form_valid(form)
         return self.form_invalid(form)
