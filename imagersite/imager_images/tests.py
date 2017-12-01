@@ -4,9 +4,12 @@ from django.test import TestCase
 from imager_images.models import Album, Photo
 from django.contrib.auth.models import User
 import factory
-import os
-from imagersite.settings import BASE_DIR
 from datetime import datetime
+from django.test import Client
+from django.urls import reverse_lazy
+
+
+client = Client()
 
 
 class FactoryUserBoi(factory.django.DjangoModelFactory):
@@ -116,3 +119,56 @@ class PhotoAndAlbumTests(TestCase):
     def test_album_has_user_and_user_has_attributes(self):
         """Test that Album class has a user."""
         self.assertTrue("codefellows.gov" in self.album.user.email)
+
+
+class ImageViewTests(TestCase):
+    """Tests for imager_profile/views.py."""
+
+    def setUp(self):
+        """Generate users using Factory Boiiii."""
+        self.photos = []
+        user = FactoryUserBoi.create()
+        user.set_password('percentsignbois')
+        user.save()
+
+        user.profile.location = "Seattle"
+        user.profile.save()
+
+        users_album = Album(user=user, title="Albumerino", published="Public")
+        users_album.save()
+
+        for i in range(10):
+            photo = FactoryPhotoBoi.build()
+            photo.user = user
+            photo.save()
+            users_album.photos.add(photo)
+            self.photos.append(photo)
+
+        self.album = users_album
+        self.profile = user.profile
+        self.user = user
+
+    def test_response_code_to_addalbum_page(self):
+        """Test that going to add_album gets a 200 Ok response."""
+        response = self.client.get(reverse_lazy('add_album'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_response_code_to_addphoto_page(self):
+        """Test that going to add_photo gets a 200 Ok response."""
+        response = self.client.get(reverse_lazy('add_photo'))
+        self.assertEqual(response.status_code, 200)
+
+    # def test_response_code_to_photogallery_page(self):
+    #     """Test that going to add_photo gets a 200 Ok response."""
+    #     response = self.client.get(reverse_lazy('photo_gallery'))
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_response_code_to_albumgallery_page(self):
+    #     """Test that going to add_photo gets a 200 Ok response."""
+    #     response = self.client.get(reverse_lazy('album_gallery'))
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_response_code_to_library_page(self):
+    #     """Test that going to add_photo gets a 200 Ok response."""
+    #     response = self.client.get(reverse_lazy('library'))
+    #     self.assertEqual(response.status_code, 200)
