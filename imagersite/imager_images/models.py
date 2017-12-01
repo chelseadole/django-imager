@@ -60,3 +60,7 @@ class Album(models.Model):
         related_name='album',
         null=True
     )
+
+    def __str__(self):
+        """."""
+        return self.title
