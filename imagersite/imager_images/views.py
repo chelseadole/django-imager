@@ -62,9 +62,6 @@ class AlbumView(ListView):
         queryset = Album.objects.filter(id=self.kwargs['pk'])
         album = queryset.get()
 
-        photos = album.photos.all()
-        import pdb; pdb.set_trace()
         return {
-            'album': album,
-            'photos': photos
+            'album': album
         }
