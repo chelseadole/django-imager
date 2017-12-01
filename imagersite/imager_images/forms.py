@@ -25,4 +25,4 @@ class NewPhoto(forms.ModelForm):
         """Album metadata."""
 
         model = Photo
-        exclude = ["title", "description", "img", "published"]
+        exclude = ["date_published", "user"]
