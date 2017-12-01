@@ -51,7 +51,7 @@ class PhotoView(DetailView):
     model = Photo
 
 
-class AlbumView(DetailView):
+class AlbumView(ListView):
     """Detail view of one album and its photos."""
 
     template_name = "imagersite/album_detail.html"
@@ -61,8 +61,10 @@ class AlbumView(DetailView):
         """Context data for Album view."""
         queryset = Album.objects.filter(id=self.kwargs['pk'])
         album = queryset.get()
+
         photos = album.photos.all()
+        import pdb; pdb.set_trace()
         return {
             'album': album,
-            'album_photos': photos
+            'photos': photos
         }
