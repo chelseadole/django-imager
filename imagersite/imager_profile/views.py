@@ -17,7 +17,7 @@ class ProfileView(ListView):
         """Context data for user stats."""
         context = super(ProfileView, self).get_context_data(**kwargs)
         user = context['view'].request.user
-        if not user:
+        if user.username == '':
             context = {"logged_in": False}
         else:
             prof_object = user.profile
@@ -58,4 +58,3 @@ class AltProfileView(DetailView):
             return context
         except User.DoesNotExist:
             return {'user_exists': False}
-
