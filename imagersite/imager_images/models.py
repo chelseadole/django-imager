@@ -33,6 +33,10 @@ class Photo(models.Model):
         null=True
     )
 
+    def __str__(self):
+        """."""
+        return self.title
+
 
 class Album(models.Model):
     """Define the Album class."""
