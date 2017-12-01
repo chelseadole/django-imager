@@ -52,5 +52,6 @@ class Album(models.Model):
     cover = models.ImageField(upload_to='cover-images')
     user = models.ForeignKey(
         User,
-        related_name='album'
+        related_name='album',
+        null=True
     )

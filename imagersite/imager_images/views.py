@@ -2,7 +2,7 @@
 
 from imager_images.models import Album, Photo
 from django.views.generic import ListView, DetailView, CreateView
-from django import forms
+from imager_images.forms import NewAlbum, NewPhoto
 
 
 class LibraryView(ListView):
@@ -73,16 +73,14 @@ class AddAlbumView(CreateView):
 
     model = Album
     template_name = "imagersite/add_album.html"
-    fields = ["title", "description", "cover", "published"]
-    success_url = 'library'
+    success_url = '/images/library'
+    form_class = NewAlbum
 
     def post(self, request, *args, **kwargs):
         """Post info for new album."""
-        import pdb; pdb.set_trace()
-        form = self.get_form()
-        # form.user = request.user.id
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
         if form.is_valid():
-            form.user_id = request.user.id
             return self.form_valid(form)
         return self.form_invalid(form)
 
@@ -94,6 +92,7 @@ class AddPhotoView(CreateView):
     template_name = "imagersite/add_photo.html"
     fields = ["title", "description", "img", "published"]
     success_url = 'library'
+    form_class = NewPhoto
 
     def post(self, request, *args, **kwargs):
         """Post info for new photo."""

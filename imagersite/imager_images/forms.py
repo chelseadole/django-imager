@@ -7,11 +7,15 @@ from imager_images.models import Album, Photo
 class NewAlbum(forms.ModelForm):
     """New Album."""
 
+    # def __init__(self, *args, **kwargs):
+    #     super(SuccessfulFeedbackForm, self).__init__(*args, **kwargs)
+    #     self.fields['was_satisifed'].initial = True
+
     class Meta:
         """Album metadata."""
 
         model = Album
-        exclude = []
+        exclude = ['photos', 'date_uploaded', 'date_modified', 'date_published', 'user']
 
 
 class NewPhoto(forms.ModelForm):
