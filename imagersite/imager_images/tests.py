@@ -158,6 +158,11 @@ class ImageViewTests(TestCase):
         response = self.client.get(reverse_lazy('add_photo'))
         self.assertEqual(response.status_code, 200)
 
+    # def test_detail_view_wont_work_for_nonexisting_photo(self):
+    #     """Test a detail view for a photo whose ID doesnt exist."""
+    #     response = self.client.get(reverse_lazy('photo_view'), args=[100])
+    #     self.assertEqual(response.status_code, 404)
+
     # def test_response_code_to_photogallery_page(self):
     #     """Test that going to add_photo gets a 200 Ok response."""
     #     response = self.client.get(reverse_lazy('photo_gallery'))
