@@ -81,5 +81,20 @@ class AddAlbumView(CreateView):
         form = self.get_form()
         if form.is_valid():
             return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+        return self.form_invalid(form)
+
+
+class AddPhotoView(CreateView):
+    """Create a new image."""
+
+    model = Photo
+    template_name = "imagersite/add_photo.html"
+    fields = ["title", "description", "img", "published"]
+    success_url = 'library'
+
+    def post(self, request, *args, **kwargs):
+        """Post info for new photo."""
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        return self.form_invalid(form)
