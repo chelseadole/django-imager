@@ -15,21 +15,3 @@ class HomeView(TemplateView):
         if user:
             return {"username": user}
         return {}
-
-
-class LoginView(TemplateView):
-    """Login page."""
-
-    template_name = "imagersite/login.html"
-
-
-class LogoutView(TemplateView):
-    """Logout."""
-
-    template_name = "imagersite/logout.html"
-
-
-class RegisterView(TemplateView):
-    """Register a new user."""
-
-    template_name = "imagersite/registration_form.html"

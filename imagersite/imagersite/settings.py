@@ -26,6 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 DEBUG = bool(os.environ.get('DEBUG', ''))
 
 ALLOWED_HOSTS = []
+LOGOUT_REDIRECT_URL = '/'
 
 
 # Application definition
