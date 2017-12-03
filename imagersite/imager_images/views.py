@@ -78,7 +78,6 @@ class AddAlbumView(CreateView):
 
     def post(self, request, *args, **kwargs):
         """Post info for new album."""
-        import pdb; pdb.set_trace()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         if form.is_valid():
