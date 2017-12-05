@@ -64,3 +64,13 @@ class EditProfileView(UpdateView):
     model = User
     template = "imagersite/edit_profile.html"
     success_url = "/profile"
+    slug_field = 'username'
+
+    def get_context_data(self, **kwargs):
+        """Context data for user stats."""
+        context = super(EditProfileView, self).get_context_data(**kwargs)
+        user = context['view'].request.user
+        return {
+            "user": user,
+            "profile": user.profile,
+        }
