@@ -9,7 +9,6 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 
 
-
 class ProfileView(ListView):
     """View for user profile page."""
 
@@ -70,8 +69,13 @@ class EditProfileView(UpdateView):
         """Overwriting UpdateView object to get user."""
         return self.request.user.profile
 
-    def form_valid(self):
+    def form_valid(self, form):
         """Check that form is valid and successful before editing."""
+        self.object = form.save()
+        self.object.user.username = form.cleaned_data['Username']
+        self.object.user.email = form.cleaned_data['Email']
+        self.object.user.save()
+        self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
     # def get_context_data(self, **kwargs):

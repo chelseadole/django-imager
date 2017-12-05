@@ -11,7 +11,6 @@ class EditProfileForm(forms.ModelForm):
         """Initializing Profile Form."""
         super(EditProfileForm, self).__init__(*args, **kwargs)
         self.fields['Username'] = forms.CharField(initial=self.instance.user.username)
-        self.fields['Password'] = forms.CharField(initial=self.instance.user.password)
         self.fields['Email'] = forms.EmailField(initial=self.instance.user.email)
         del self.fields['user']
 
