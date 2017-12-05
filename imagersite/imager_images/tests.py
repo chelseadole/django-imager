@@ -8,9 +8,15 @@ from datetime import datetime
 from django.test import Client
 from django.urls import reverse_lazy
 from imager_images.forms import NewAlbum, NewPhoto
-from bs4 import BeautifulSoup as soup
+from django.core.files.uploadedfile import SimpleUploadedFile
+import os
+from django.conf import settings
 
 client = Client()
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+MEDIA_ROOT = settings.MEDIA_ROOT
+media = os.path.join(MEDIA_ROOT)
+os.system('mv ' + media + '/cache/ ' + media + '/saved_cache//')
 
 
 class FactoryUserBoi(factory.django.DjangoModelFactory):
@@ -34,12 +40,20 @@ class FactoryPhotoBoi(factory.django.DjangoModelFactory):
         model = Photo
 
     title = 'my photo title'
+    img = SimpleUploadedFile(
+        name='sample_meme.jpg',
+        content=open(os.path.join(BASE_DIR,
+                                  'imagersite',
+                                  'static',
+                                  'sample_meme.jpg',
+                                  ), 'rb').read(),
+        content_type='image/jpeg'
+    )
     description = 'wow what a great photo'
     date_uploaded = datetime.strptime('2017, 10, 1', '%Y, %m, %d')
     date_modified = datetime.now()
     date_published = datetime.strptime('2017, 10, 5', '%Y, %m, %d')
     published = 'Public'
-    # user = FactoryUserBoi.create()
 
 
 class PhotoAndAlbumTests(TestCase):
@@ -55,7 +69,16 @@ class PhotoAndAlbumTests(TestCase):
         user.profile.location = "Seattle"
         user.profile.save()
 
-        users_album = Album(user=user, title="Albumerino", published="Public")
+        cover_img = SimpleUploadedFile(
+            name='sample_meme.jpg',
+            content=open(os.path.join(BASE_DIR,
+                                      'imagersite',
+                                      'static',
+                                      'sample_meme.jpg',
+                                      ), 'rb').read(),
+            content_type='image/jpeg'
+        )
+        users_album = Album(user=user, title="Albumerino", published="Public", cover=cover_img)
         users_album.save()
 
         for i in range(10):
@@ -63,6 +86,7 @@ class PhotoAndAlbumTests(TestCase):
             photo.user = user
             photo.save()
             users_album.photos.add(photo)
+            users_album.save()
             self.photos.append(photo)
 
         self.album = users_album
@@ -149,6 +173,12 @@ class ImageViewTests(TestCase):
         self.profile = user.profile
         self.user = user
 
+    def tearDown(self):
+        """Tear down testing data."""
+        to_delete = os.path.join(MEDIA_ROOT, 'images', 'sample_meme.jpg', 'sample*.jpg')
+        os.system('rm -rf ' + to_delete)
+        os.system('rm -rf ' + media + '/cache/')
+
     def test_response_code_to_addalbum_page(self):
         """Test that going to add_album gets a 200 Ok response."""
         response = self.client.get(reverse_lazy('add_album'))
@@ -159,20 +189,20 @@ class ImageViewTests(TestCase):
         response = self.client.get(reverse_lazy('add_photo'))
         self.assertEqual(response.status_code, 200)
 
-    # def test_response_code_to_photogallery_page(self):
-    #     """Test that going to add_photo gets a 200 Ok response."""
-    #     response = self.client.get(reverse_lazy('photo_gallery'))
-    #     self.assertEqual(response.status_code, 200)
+    def test_response_code_to_photogallery_page(self):
+        """Test that going to add_photo gets a 200 Ok response."""
+        response = self.client.get(reverse_lazy('photo_gallery'))
+        self.assertEqual(response.status_code, 200)
 
-    # def test_response_code_to_albumgallery_page(self):
-    #     """Test that going to add_photo gets a 200 Ok response."""
-    #     response = self.client.get(reverse_lazy('album_gallery'))
-    #     self.assertEqual(response.status_code, 200)
+    def test_response_code_to_albumgallery_page(self):
+        """Test that going to add_photo gets a 200 Ok response."""
+        response = self.client.get(reverse_lazy('album_gallery'))
+        self.assertEqual(response.status_code, 200)
 
-    # def test_response_code_to_library_page(self):
-    #     """Test that going to add_photo gets a 200 Ok response."""
-    #     response = self.client.get(reverse_lazy('library'))
-    #     self.assertEqual(response.status_code, 200)
+    def test_response_code_to_library_page(self):
+        """Test that going to add_photo gets a 200 Ok response."""
+        response = self.client.get(reverse_lazy('library'))
+        self.assertEqual(response.status_code, 200)
 
     def test_incorrectly_formatted_use_of_photo_form(self):
         """Test that a post request to add_photo works."""
@@ -223,3 +253,4 @@ class ImageViewTests(TestCase):
         response = self.client.get(reverse_lazy('album_gallery'))
         parsed_page = soup(response.content, 'html.parser')
         # Assert that every listed album here is "Public"
+        os.system('mv ' + media + '/saved_cache/' + media + '/cache/')
