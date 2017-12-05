@@ -114,7 +114,7 @@ class EditPhoto(UpdateView):
 class EditAlbum(UpdateView):
     """Edit an album."""
 
-    model = Photo
-    template_name = 'imagersite/edit_photo.html'
+    model = Album
+    template_name = 'imagersite/edit_album.html'
     success_url = '/images/library'
     fields = ['title', 'cover', 'photos', 'description', 'published']
