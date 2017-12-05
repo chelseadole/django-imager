@@ -62,7 +62,7 @@ class EditProfileView(UpdateView):
     """View to edit profile information based on User and Profile models."""
 
     model = Profile
-    template = "imagersite/profile_form.html"
+    template_name = "imagersite/profile_form.html"
     success_url = reverse_lazy('profile')
     form_class = EditProfileForm
 
