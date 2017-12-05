@@ -2,7 +2,6 @@
 
 from django.conf.urls import url
 from imager_images.views import LibraryView, PhotoGalleryView, AlbumGalleryView, PhotoView, AlbumView, AddAlbumView, AddPhotoView, EditPhoto, EditAlbum
-
 urlpatterns = [
     url(r'^library$', LibraryView.as_view(), name="library"),
     url(r'^photos$', PhotoGalleryView.as_view(), name="photo_gallery"),
