@@ -6,9 +6,11 @@ Authors:
 * Nathan Moore
 * Chelsea Dole
 
+
 Tools: 
 
 * Python
 * Django
 * PostgreSQL
 * Suh dude
+* Not much man, you?
