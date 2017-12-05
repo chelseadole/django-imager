@@ -3,6 +3,7 @@
 from django.test import TestCase
 from imager_profile.models import Profile
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
 import factory
 
 
@@ -55,7 +56,9 @@ class ProfileTests(TestCase):
             phone=1069147021,
             user=test_user
         )
+        test_user.profile = example
         self.assertEqual(example.website, "www.chelseadole.com")
+        self.assertEqual(test_user.profile.website, "www.chelseadole.com")
         self.assertEqual(example.user.email, User.objects.first().email)
 
     def test_user_built_in_adds_new_user(self):
@@ -69,7 +72,9 @@ class ProfileTests(TestCase):
             phone=1069147021,
             user=test_user2
         )
+        test_user2.profile = example2
         self.assertEqual(example2.camera, "Canon")
+        self.assertEqual(test_user2.profile.camera, "Canon")
         self.assertEqual(example2.user.username, User.objects.last().username)
 
     def test_new_profile_is_active(self):
@@ -84,3 +89,42 @@ class ProfileTests(TestCase):
             user=test_user3
         )
         self.assertTrue(example.is_active)
+
+
+class EditProfileTests(TestCase):
+    """Tests for Editing Profile view."""
+
+    def setUp(self):
+        """Generate users using Factory Boiiii."""
+        test_users = [FactoryUserBoi.create() for i in range(20)]
+
+        for user in test_users:
+            user.set_password('ultimatepotato')
+            user.save()
+
+        self.users = test_users
+
+    def test_new_profile_has_no_website_unless_added(self):
+        """Test that generated profile has no contents upon User init."""
+        test = self.users[0]
+        self.assertEqual(test.profile.website, '')
+
+    def test_new_profile_has_no_bio_unless_added(self):
+        """Test that generated profile has no contents upon User init."""
+        test = self.users[0]
+        self.assertEqual(test.profile.bio, '')
+
+    def test_new_profile_has_no_camera_unless_added(self):
+        """Test that generated profile has no contents upon User init."""
+        test = self.users[0]
+        self.assertEqual(test.profile.camera, '')
+
+    def test_new_profile_page_loads(self):
+        """Test profile page loads."""
+        response = self.client.get(reverse_lazy('profile'))
+        self.assertEqual(response.status_code, 302)
+
+    def test_response_code_to_edit_profile_page(self):
+        """Test GET request to edit profile."""
+        response = self.client.get(reverse_lazy('edit_profile'))
+        self.assertEqual(response.status_code, 302)
