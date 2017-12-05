@@ -1,10 +1,8 @@
 """Profile views."""
 
-from django.shortcuts import render
 from django.contrib.auth.models import User
-from imager_profile.models import Profile
 from imager_images.models import Photo, Album
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, UpdateView
 
 
 class ProfileView(ListView):
@@ -58,3 +56,11 @@ class AltProfileView(DetailView):
             return context
         except User.DoesNotExist:
             return {'user_exists': False}
+
+
+class EditProfileView(UpdateView):
+    """View to edit profile information based on User and Profile models."""
+
+    model = User
+    template = "imagersite/edit_profile.html"
+    success_url = "/profile"
