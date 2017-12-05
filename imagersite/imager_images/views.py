@@ -1,7 +1,7 @@
 """Imager image views."""
 
 from imager_images.models import Album, Photo
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from imager_images.forms import NewAlbum, NewPhoto
 
 
@@ -100,3 +100,12 @@ class AddPhotoView(CreateView):
         if form.is_valid():
             return self.form_valid(form)
         return self.form_invalid(form)
+
+
+class EditPhoto(UpdateView):
+    """."""
+
+    model = Photo
+    template_name = 'imagersite/edit_photo.html'
+    success_url = '/images/library'
+    fields = ['title', 'img', 'description', 'published']

@@ -2,24 +2,24 @@
 {% block content %}
 
 <div class="bg-faded p-4 my-4">
-    <hr class="divider">
-    <h2 class="text-center text-lg text-uppercase my-0">
-      <strong>Public Photos</strong>
-    </h2>
-    {% for photo in photos %}
-    <hr class="divider">
-    <div class="row">
-      <div class="col-md-4 mb-4 mb-md-0">
-        <div class="card h-100">
-          <img class="card-img-top" src="{{ photo.img.url }}" alt="{{ photo.title}}">
-          <div class="card-body text-center">
-            <h4 class="card-title m-0">{{ photo.title }}
-            </h4>
-          </div>
+  <hr class="divider">
+  <h2 class="text-center text-lg text-uppercase my-0">
+    <strong>Public Photos</strong>
+  </h2>
+  {% for photo in photos %}
+  <hr class="divider">
+  <div class="row">
+    <div class="col-md-4 mb-4 mb-md-0">
+      <div class="card h-100">
+        <img class="card-img-top" src="{{ photo.img.url }}" alt="{{ photo.title}}">
+        <div class="card-body text-center">
+          <h4 class="card-title m-0">{{ photo.title }}
+          </h4>
         </div>
       </div>
-      {% endfor %}
     </div>
+    {% endfor %}
   </div>
+</div>
 
 {% endblock %}
