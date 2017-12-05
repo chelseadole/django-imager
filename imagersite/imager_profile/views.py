@@ -2,7 +2,12 @@
 
 from django.contrib.auth.models import User
 from imager_images.models import Photo, Album
+from imager_profile.models import Profile
 from django.views.generic import DetailView, ListView, UpdateView
+from imager_profile.forms import EditProfileForm
+from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+
 
 
 class ProfileView(ListView):
@@ -21,7 +26,6 @@ class ProfileView(ListView):
         photos_pub = Photo.objects.filter(user=user, published="Public").count()
         photos_pri = Photo.objects.filter(user=user, published="Public").count()
         return {
-            "logged_in": True,
             "user": user,
             "profile": prof_object,
             "public_albums": albums_pub,
@@ -57,16 +61,26 @@ class AltProfileView(DetailView):
 class EditProfileView(UpdateView):
     """View to edit profile information based on User and Profile models."""
 
-    model = User
-    template = "imagersite/edit_profile.html"
-    success_url = "/profile"
-    slug_field = 'username'
+    model = Profile
+    template = "imagersite/profile_form.html"
+    # success_url = "/profile"
+    success_url = reverse_lazy('profile')
+    form_class = EditProfileForm
+    # fields = []
 
-    def get_context_data(self, **kwargs):
-        """Context data for user stats."""
-        context = super(EditProfileView, self).get_context_data(**kwargs)
-        user = context['view'].request.user
-        return {
-            "user": user,
-            "profile": user.profile,
-        }
+    def get_object(self):
+        """Overwriting UpdateView object to get user."""
+        return self.request.user.profile
+
+    def form_valid(self):
+        """Check that form is valid and successful before editing."""
+        return HttpResponseRedirect(self.get_success_url())
+
+    # def get_context_data(self, **kwargs):
+    #     """Context data for user stats."""
+    #     context = super(EditProfileView, self).get_context_data(**kwargs)
+    #     user = context['view'].request.user
+    #     return {
+    #         "user": user,
+    #         "profile": user.profile
+    #     }

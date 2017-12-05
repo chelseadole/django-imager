@@ -48,7 +48,8 @@ class Profile(models.Model):
     phone = models.IntegerField()
     user = models.OneToOneField(
         User,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='profile'
     )
 
     @property
