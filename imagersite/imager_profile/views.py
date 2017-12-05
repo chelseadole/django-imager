@@ -15,24 +15,20 @@ class ProfileView(ListView):
         """Context data for user stats."""
         context = super(ProfileView, self).get_context_data(**kwargs)
         user = context['view'].request.user
-        if user.username == '':
-            context = {"logged_in": False}
-        else:
-            prof_object = user.profile
-            albums_pub = Album.objects.filter(user=user, published="Public").count()
-            albums_pri = Album.objects.filter(user=user, published="Private").count()
-            photos_pub = Photo.objects.filter(user=user, published="Public").count()
-            photos_pri = Photo.objects.filter(user=user, published="Public").count()
-            context = {
-                "logged_in": True,
-                "user": user,
-                "profile": prof_object,
-                "public_albums": albums_pub,
-                "private_albums": albums_pri,
-                "photos_pub": photos_pub,
-                "photos_pri": photos_pri
-            }
-        return context
+        prof_object = user.profile
+        albums_pub = Album.objects.filter(user=user, published="Public").count()
+        albums_pri = Album.objects.filter(user=user, published="Private").count()
+        photos_pub = Photo.objects.filter(user=user, published="Public").count()
+        photos_pri = Photo.objects.filter(user=user, published="Public").count()
+        return {
+            "logged_in": True,
+            "user": user,
+            "profile": prof_object,
+            "public_albums": albums_pub,
+            "private_albums": albums_pri,
+            "photos_pub": photos_pub,
+            "photos_pri": photos_pri
+        }
 
 
 class AltProfileView(DetailView):
