@@ -16,7 +16,8 @@ client = Client()
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 MEDIA_ROOT = settings.MEDIA_ROOT
 media = os.path.join(MEDIA_ROOT)
-os.system('mv ' + media + '/cache/ ' + media + '/saved_cache//')
+os.system('mv ' + media + '/images/ ' + media + '/saved_images//')
+os.system('mv ' + media + '/cover-images/ ' + media + '/saved_cover-images//')
 
 
 class FactoryUserBoi(factory.django.DjangoModelFactory):
@@ -94,6 +95,11 @@ class PhotoAndAlbumTests(TestCase):
         self.user = user
 
     # Profile tests below
+
+    def tearDown(self):
+        """Tear down testing data."""
+        os.system('rm -rf ' + media + '/images/')
+        os.system('rm -rf ' + media + '/cover-images/')
 
     def test_profile_exists_on_user(self):
         """Test profile was created and has Seattle location."""
@@ -175,9 +181,8 @@ class ImageViewTests(TestCase):
 
     def tearDown(self):
         """Tear down testing data."""
-        to_delete = os.path.join(MEDIA_ROOT, 'images', 'sample_meme.jpg', 'sample*.jpg')
-        os.system('rm -rf ' + to_delete)
-        os.system('rm -rf ' + media + '/cache/')
+        os.system('rm -rf ' + media + '/images/')
+        os.system('rm -rf ' + media + '/cover-images/')
 
     def test_response_code_to_addalbum_page(self):
         """Test that going to add_album gets a 200 Ok response."""
@@ -238,19 +243,20 @@ class ImageViewTests(TestCase):
     #         'description': 'the boy of the photos',
     #         'title': 'a working album',
     #         'published': 'Private',
-    #         'photos': '2'
+    #         'photos': '2',
+    #         'cover': None
     #     }
     #     form = NewAlbum(data=new_album)
     #     self.assertTrue(form.is_valid())
 
-    # def test_detail_view_wont_work_for_nonexisting_photo(self):
-    #     """Test a detail view for a photo whose ID doesnt exist."""
-    #     response = self.client.get(reverse_lazy('photo_view'), args=[100])
-    #     self.assertEqual(response.status_code, 404)
+    def test_detail_view_wont_work_for_nonexisting_photo(self):
+        """Test a detail view for a photo whose ID doesnt exist."""
+        response = self.client.get(reverse_lazy('photo_view'), args=[100])
+        self.assertEqual(response.status_code, 404)
 
-    def test_album_gallery_only_shows_public_albums(self):
-        """Test that album_gallery url only shows public view albums."""
-        response = self.client.get(reverse_lazy('album_gallery'))
-        parsed_page = soup(response.content, 'html.parser')
-        # Assert that every listed album here is "Public"
-        os.system('mv ' + media + '/saved_cache/' + media + '/cache/')
+    # def test_album_gallery_only_shows_public_albums(self):
+    #     """Test that album_gallery url only shows public view albums."""
+    #     response = self.client.get(reverse_lazy('album_gallery'))
+    #     parsed_page = soup(response.content, 'html.parser')
+    #     # Assert that every listed album here is "Public"
+

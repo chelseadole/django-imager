@@ -1,10 +1,10 @@
 """Test module for imagersite."""
-from django.test import Client, TestCase, RequestFactory
+from django.test import Client, TestCase
 from django.urls import reverse_lazy
-from bs4 import BeautifulSoup as soup
-from django.contrib.auth.models import User
 from django.core import mail
-from imagersite.views import home_view
+from bs4 import BeautifulSoup as soup
+
+# from imagersite.views import HomeView
 
 
 class ViewTests(TestCase):
@@ -32,13 +32,13 @@ class ViewTests(TestCase):
 
     def test_login_loads_with_get_request_to_page(self):
         """Test that when one loads the login page, it works."""
-        response = self.client.get('/accounts/login/')
+        response = self.client.get('/login/')
         self.assertEqual(response.status_code, 200)
 
     def test_login_loads_error_with_incorrect_user(self):
         """Test that the login view gives error page with wrong user."""
         login_attempt = {'username': 'thewronglogin', 'password': 'thewrongpassword'}
-        response = self.client.post('/accounts/login/', login_attempt)
+        response = self.client.post('/login/', login_attempt)
         page_html = soup(response.content, 'html.parser')
         self.assertTemplateUsed(response, 'registration/login.html')
         self.assertTrue("Please enter a correct username and password. Note that both fields may be case-sensitive." in str(page_html))
