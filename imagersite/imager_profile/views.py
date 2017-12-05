@@ -63,7 +63,6 @@ class EditProfileView(UpdateView):
 
     model = Profile
     template = "imagersite/profile_form.html"
-    # success_url = "/profile"
     success_url = reverse_lazy('profile')
     form_class = EditProfileForm
     # fields = []
