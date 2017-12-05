@@ -3,7 +3,9 @@
 from django.test import TestCase
 from imager_profile.models import Profile
 from django.contrib.auth.models import User
+from imager_profile.forms import EditProfileForm
 from django.urls import reverse_lazy
+from django.forms.models import model_to_dict
 import factory
 
 
@@ -128,3 +130,40 @@ class EditProfileTests(TestCase):
         """Test GET request to edit profile."""
         response = self.client.get(reverse_lazy('edit_profile'))
         self.assertEqual(response.status_code, 302)
+
+# TEST AFTER HERE
+
+    def test_post_request_to_edit_profile(self):
+        """Test POST request to edit profile."""
+        self.client.force_login(self.users[3])
+        resubmitted_prof = {
+            "website": "https://www.google.com",
+            "location": "West Siberia",
+            "fee": 30.00,
+            "camera": "Nikon",
+            "services": "Other",
+            "bio": "mybio",
+            "phone": 2069141111,
+            "Username": "newuser",
+            "Email": "otherbaaab@baab.gov"
+        }
+        request = self.client.post('/profile/edit', resubmitted_prof)
+        self.assertEqual(request.status_code, 302)
+        updated = Profile.objects.get(user=self.users[3])
+        self.assertEqual(updated.fee, 30.00)
+        self.assertEqual(updated.services, "Other")
+        self.assertEqual(updated.user.username, 'newuser')
+
+        # import pdb; pdb.set_trace()
+        # self.assertEqual(self.users[3].profile.bio, "mybio")
+        # self.assertEqual(self.users[3].profile.fee, 30.00)
+
+        # self.assertEqual(self.users[2].profile.camera, '')
+        # import pdb; pdb.set_trace()
+
+        # initial_profile = model_to_dict(self.users[2].profile)
+        # initial_profile['camera'] = "Canon"
+        # form = EditProfileForm(instance=initial_profile)
+        # self.assertTrue(form.is_valid())
+        # saved = form.save()
+        # self.assertEqual(saved.defendant, self.initial_profile)s

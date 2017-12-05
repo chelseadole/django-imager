@@ -77,12 +77,3 @@ class EditProfileView(UpdateView):
         self.object.user.save()
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
-
-    # def get_context_data(self, **kwargs):
-    #     """Context data for user stats."""
-    #     context = super(EditProfileView, self).get_context_data(**kwargs)
-    #     user = context['view'].request.user
-    #     return {
-    #         "user": user,
-    #         "profile": user.profile
-    #     }
