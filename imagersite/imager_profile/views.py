@@ -65,7 +65,6 @@ class EditProfileView(UpdateView):
     template = "imagersite/profile_form.html"
     success_url = reverse_lazy('profile')
     form_class = EditProfileForm
-    # fields = []
 
     def get_object(self):
         """Overwriting UpdateView object to get user."""
