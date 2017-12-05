@@ -1,6 +1,5 @@
 """Tests for Album and Photo models."""
 from django.test import TestCase
-
 from imager_images.models import Album, Photo
 from django.contrib.auth.models import User
 import factory
@@ -10,6 +9,7 @@ from django.urls import reverse_lazy
 from imager_images.forms import NewAlbum, NewPhoto
 from django.core.files.uploadedfile import SimpleUploadedFile
 import os
+from django.urls.exceptions import NoReverseMatch
 from django.conf import settings
 
 client = Client()
@@ -152,7 +152,7 @@ class PhotoAndAlbumTests(TestCase):
         self.assertTrue("codefellows.gov" in self.album.user.email)
 
 
-class ImageViewTests(TestCase):
+class ImagephTests(TestCase):
     """Tests for imager_profile/views.py."""
 
     def setUp(self):
@@ -249,14 +249,8 @@ class ImageViewTests(TestCase):
     #     form = NewAlbum(data=new_album)
     #     self.assertTrue(form.is_valid())
 
-    def test_detail_view_wont_work_for_nonexisting_photo(self):
-        """Test a detail view for a photo whose ID doesnt exist."""
-        response = self.client.get(reverse_lazy('photo_view'), args=[100])
-        self.assertEqual(response.status_code, 404)
-
     # def test_album_gallery_only_shows_public_albums(self):
     #     """Test that album_gallery url only shows public view albums."""
     #     response = self.client.get(reverse_lazy('album_gallery'))
     #     parsed_page = soup(response.content, 'html.parser')
     #     # Assert that every listed album here is "Public"
-
