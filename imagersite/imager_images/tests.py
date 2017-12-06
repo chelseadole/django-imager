@@ -7,10 +7,8 @@ from datetime import datetime
 from django.test import Client
 from django.urls import reverse_lazy
 from imager_images.forms import NewAlbum, NewPhoto
-from imager_images.views import AddPhotoView
 from django.core.files.uploadedfile import SimpleUploadedFile
 import os
-from django.urls.exceptions import NoReverseMatch
 from django.conf import settings
 
 client = Client()
