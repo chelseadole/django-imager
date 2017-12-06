@@ -152,7 +152,7 @@ class PhotoAndAlbumTests(TestCase):
         self.assertTrue("codefellows.gov" in self.album.user.email)
 
 
-class ImagephTests(TestCase):
+class ImagesTests(TestCase):
     """Tests for imager_profile/views.py."""
 
     def setUp(self):
@@ -165,7 +165,17 @@ class ImagephTests(TestCase):
         user.profile.location = "Seattle"
         user.profile.save()
 
-        users_album = Album(user=user, title="Albumerino", published="Public")
+        cover_img = SimpleUploadedFile(
+            name='sample_meme.jpg',
+            content=open(os.path.join(BASE_DIR,
+                                      'imagersite',
+                                      'static',
+                                      'sample_meme.jpg',
+                                      ), 'rb').read(),
+            content_type='image/jpeg'
+        )
+
+        users_album = Album(user=user, title="Albumerino", published="Public", cover=cover_img)
         users_album.save()
 
         for i in range(10):
@@ -237,20 +247,15 @@ class ImagephTests(TestCase):
         form = NewAlbum(data=new_album)
         self.assertFalse(form.is_valid())
 
-    # def test_correctly_formatted_use_of_album_form(self):
-    #     """Test that a valid use of add_album works."""
-    #     new_album = {
-    #         'description': 'the boy of the photos',
-    #         'title': 'a working album',
-    #         'published': 'Private',
-    #         'photos': '2',
-    #         'cover': None
-    #     }
-    #     form = NewAlbum(data=new_album)
-    #     self.assertTrue(form.is_valid())
+    def test_edit_album_view_is_status_ok(self):
+        """Test that album view status code is 200."""
+        self.client.force_login(self.user)
+        response = self.client.get("/images/albums/" + str(self.album.id) + "/edit", follow=True)
+        self.assertTrue(response.status_code == 200)
 
-    # def test_album_gallery_only_shows_public_albums(self):
-    #     """Test that album_gallery url only shows public view albums."""
-    #     response = self.client.get(reverse_lazy('album_gallery'))
-    #     parsed_page = soup(response.content, 'html.parser')
-    #     # Assert that every listed album here is "Public"
+    def test_edit_album_view_uses_correct_template(self):
+        """Test that edit album view status code is 200."""
+        self.client.force_login(self.user)
+        response = self.client.get("/images/albums/" + str(self.album.id) + "/edit", follow=True)
+        self.assertTemplateUsed(response, 'imagersite/edit_album.html')
+        self.assertTrue(response.status_code == 200)
