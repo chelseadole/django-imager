@@ -258,4 +258,17 @@ class ImagesTests(TestCase):
         self.client.force_login(self.user)
         response = self.client.get("/images/albums/" + str(self.album.id) + "/edit", follow=True)
         self.assertTemplateUsed(response, 'imagersite/edit_album.html')
+
+    def test_edit_photo_view_is_status_ok(self):
+        """Test that photo view status code is 200."""
+        self.client.force_login(self.user)
+        photo = FactoryPhotoBoi.create()
+        response = self.client.get("/images/photos/" + str(photo.id) + "/edit", follow=True)
         self.assertTrue(response.status_code == 200)
+
+    def test_edit_photo_view_uses_correct_template(self):
+        """Test that edit photo view status code is 200."""
+        self.client.force_login(self.user)
+        photo = FactoryPhotoBoi.create()
+        response = self.client.get("/images/photos/" + str(photo.id) + "/edit", follow=True)
+        self.assertTemplateUsed(response, 'imagersite/edit_photo.html')
