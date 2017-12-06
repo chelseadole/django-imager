@@ -137,7 +137,7 @@ class EditProfileTests(TestCase):
         response = self.client.get("/profile/edit")
         self.assertTemplateUsed(response, 'imagersite/profile_form.html')
 
-    def test_post_request_to_edit_album(self):
+    def test_post_request_to_edit_profile(self):
         """Test POST request to edit profile."""
         self.client.force_login(self.users[5])
         resubmitted_prof = {
