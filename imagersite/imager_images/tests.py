@@ -7,6 +7,7 @@ from datetime import datetime
 from django.test import Client
 from django.urls import reverse_lazy
 from imager_images.forms import NewAlbum, NewPhoto
+from imager_images.views import AddPhotoView
 from django.core.files.uploadedfile import SimpleUploadedFile
 import os
 from django.urls.exceptions import NoReverseMatch
@@ -236,6 +237,13 @@ class ImagesTests(TestCase):
         }
         form = NewAlbum(data=new_album)
         self.assertFalse(form.is_valid())
+
+    def test_add_photo_view_uses_correct_template(self):
+        """Test that add photo view uses the correct template."""
+        self.client.force_login(self.user)
+        request = self.client.get("/images/photos/add/")
+        request.user = self.user
+        self.assertTemplateUsed(request, 'imagersite/add_photo.html')
 
     def test_edit_album_view_is_status_ok(self):
         """Test that album view status code is 200."""
