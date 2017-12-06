@@ -220,7 +220,7 @@ class ImagesTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_incorrectly_formatted_use_of_photo_form(self):
-        """Test that a post request to add_photo works."""
+        """Test that a post request to add_photo errors correctly."""
         new_photo = {
             'description': 'the boy of the photos',
             'published': "Private"
@@ -228,18 +228,8 @@ class ImagesTests(TestCase):
         form = NewPhoto(data=new_photo)
         self.assertFalse(form.is_valid())
 
-    # def test_correctly_formatted_use_of_photo_form(self):
-    #     """Test that adding all fields to photo form works."""
-    #     new_photo = {
-    #         'description': 'the boy of the photos',
-    #         'published': "Private",
-    #         'title': 'this time it will work!'
-    #     }
-    #     form = NewPhoto(data=new_photo)
-    #     self.assertTrue(form.is_valid())
-
     def test_incorrectly_formatted_use_of_album_form(self):
-        """Test that a bad use of add_photo doesnt work."""
+        """Test that a bad use of add_photo errors correctly."""
         new_album = {
             'description': 'the boy of the photos',
             'thiscategoryisincorrect': 'nope'
