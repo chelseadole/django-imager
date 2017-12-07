@@ -3,8 +3,23 @@ from django.test import Client, TestCase
 from django.urls import reverse_lazy
 from django.core import mail
 from bs4 import BeautifulSoup as soup
+from django.contrib.auth.models import User
+import factory
+
 
 # from imagersite.views import HomeView
+
+
+class FactoryUserBoi(factory.django.DjangoModelFactory):
+    """Factory for creating test Users."""
+
+    class Meta:
+        """Meta class."""
+
+        model = User
+
+    username = factory.Sequence(lambda user: 'NewThing{}3'.format(user))
+    email = factory.Sequence(lambda user: '{}@codefellows.edu'.format(user))
 
 
 class ViewTests(TestCase):
@@ -13,6 +28,11 @@ class ViewTests(TestCase):
     def setUp(self):
         """Set up."""
         self.client = Client()
+
+        user = FactoryUserBoi.create()
+        user.set_password('percentsignbois')
+        user.save()
+        self.user = user
 
     def test_home_view(self):
         """Test that HomeView loads."""
@@ -45,11 +65,13 @@ class ViewTests(TestCase):
 
     def test_library_view_retrieves_correct_template(self):
         """Test that when libraryview loads, it loads to library.html."""
+        self.client.force_login(self.user)
         response = self.client.get(reverse_lazy('library'))
         self.assertTemplateUsed(response, 'imagersite/library.html')
 
     def test_library_view_has_correct_content(self):
         """Test that when you go to Home without being logged in, the correct template comes through."""
+        self.client.force_login(self.user)
         response = self.client.get(reverse_lazy('library'))
         parsed = soup(response.content, 'html.parser')
         self.assertTrue('Albums' in str(parsed))

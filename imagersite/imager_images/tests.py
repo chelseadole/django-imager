@@ -82,7 +82,7 @@ class PhotoAndAlbumTests(TestCase):
         users_album = Album(user=user, title="Albumerino", published="Public", cover=cover_img)
         users_album.save()
 
-        for i in range(10):
+        for i in range(3):
             photo = FactoryPhotoBoi.build()
             photo.user = user
             photo.save()
@@ -115,7 +115,7 @@ class PhotoAndAlbumTests(TestCase):
 
     def test_num_photos_created(self):
         """Test the number of photo objects made by the Boi."""
-        self.assertTrue(len(self.photos) == 10)
+        self.assertTrue(len(self.photos) == 3)
 
     def test_photo_has_correct_title_attribute_when_created(self):
         """Test that a created user has correct title attribute."""
@@ -183,7 +183,7 @@ class ImagesTests(TestCase):
         users_album = Album(user=user, title="Albumerino", published="Public", cover=cover_img)
         users_album.save()
 
-        for i in range(10):
+        for i in range(3):
             photo = FactoryPhotoBoi.build()
             photo.user = user
             photo.save()
