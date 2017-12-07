@@ -118,4 +118,3 @@ class EditAlbum(UpdateView):
     template_name = 'imagersite/edit_album.html'
     success_url = '/images/library'
     fields = ['title', 'cover', 'photos', 'description', 'published']
-    print('hitting editalbum')
