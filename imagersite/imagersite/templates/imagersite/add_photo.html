@@ -8,6 +8,7 @@
       <strong>Add Photo</strong>
     </h2>
     <form class="" method="post" enctype="multipart/form-data">
+      {{ body_text | escape }}
       {% csrf_token %}
       {{ form.as_p }}
       <input type="submit" value="Add Photo"/>
