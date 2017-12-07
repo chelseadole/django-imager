@@ -7,9 +7,10 @@ from django.views.generic import DetailView, ListView, UpdateView
 from imager_profile.forms import EditProfileForm
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class ProfileView(ListView):
+class ProfileView(LoginRequiredMixin, ListView):
     """View for user profile page."""
 
     model = User
@@ -57,7 +58,7 @@ class AltProfileView(DetailView):
             return {'user_exists': False}
 
 
-class EditProfileView(UpdateView):
+class EditProfileView(LoginRequiredMixin, UpdateView):
     """View to edit profile information based on User and Profile models."""
 
     model = Profile
