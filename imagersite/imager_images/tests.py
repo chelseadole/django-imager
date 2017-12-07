@@ -202,29 +202,29 @@ class ImagesTests(TestCase):
         # os.system('mv ' + media + '/saved_images/ ' + media + '/images/')
 
     def test_response_code_to_addalbum_page(self):
-        """Test that going to add_album gets a 200 Ok response."""
+        """Test that going to add_album gets a 302 Redirect response."""
         response = self.client.get(reverse_lazy('add_album'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
     def test_response_code_to_addphoto_page(self):
-        """Test that going to add_photo gets a 200 Ok response."""
+        """Test that going to add_photo gets a 302 Redirect response."""
         response = self.client.get(reverse_lazy('add_photo'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
     def test_response_code_to_photogallery_page(self):
-        """Test that going to add_photo gets a 200 Ok response."""
+        """Test that going to add_photo gets a 200 OK response."""
         response = self.client.get(reverse_lazy('photo_gallery'))
         self.assertEqual(response.status_code, 200)
 
     def test_response_code_to_albumgallery_page(self):
-        """Test that going to add_photo gets a 200 Ok response."""
+        """Test that going to add_photo gets a 200 OK response."""
         response = self.client.get(reverse_lazy('album_gallery'))
         self.assertEqual(response.status_code, 200)
 
     def test_response_code_to_library_page(self):
-        """Test that going to add_photo gets a 200 Ok response."""
+        """Test that going to add_photo gets a 302 redirect response."""
         response = self.client.get(reverse_lazy('library'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
     def test_incorrectly_formatted_use_of_photo_form(self):
         """Test that a post request to add_photo errors correctly."""
