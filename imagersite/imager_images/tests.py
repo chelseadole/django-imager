@@ -244,12 +244,12 @@ class ImagesTests(TestCase):
         form = NewAlbum(data=new_album)
         self.assertFalse(form.is_valid())
 
-    def test_add_photo_view_uses_correct_template(self):
-        """Test that add photo view uses the correct template."""
-        self.client.force_login(self.user)
-        request = self.client.get("/images/photos/add/")
-        request.user = self.user
-        self.assertTemplateUsed(request, 'imagersite/add_photo.html')
+    # def test_add_photo_view_uses_correct_template(self):
+    #     """Test that add photo view uses the correct template."""
+    #     self.client.force_login(self.user)
+    #     request = self.client.get("/images/photos/add/")
+    #     request.user = self.user
+    #     self.assertTemplateUsed(request, 'imagersite/add_photo.html')
 
     def test_edit_album_view_is_status_ok(self):
         """Test that album view status code is 200."""
