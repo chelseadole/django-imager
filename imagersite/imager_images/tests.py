@@ -15,8 +15,6 @@ client = Client()
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 MEDIA_ROOT = settings.MEDIA_ROOT
 media = os.path.join(MEDIA_ROOT)
-os.system('mv ' + media + '/images/ ' + media + '/saved_images//')
-os.system('mv ' + media + '/cover-images/ ' + media + '/saved_cover-images//')
 
 
 class FactoryUserBoi(factory.django.DjangoModelFactory):
@@ -61,6 +59,9 @@ class PhotoAndAlbumTests(TestCase):
 
     def setUp(self):
         """Generate users using Factory Boiiii."""
+        # os.system('mv ' + media + '/images/ ' + media + '/saved_images/')
+        # os.system('mv ' + media + '/cover_images/ ' + media + '/saved_cover_images/')
+
         self.photos = []
         user = FactoryUserBoi.create()
         user.set_password('percentsignbois')
@@ -97,8 +98,10 @@ class PhotoAndAlbumTests(TestCase):
 
     def tearDown(self):
         """Tear down testing data."""
-        os.system('rm -rf ' + media + '/images/')
-        os.system('rm -rf ' + media + '/cover-images/')
+        # os.system('rm -rf ' + media + '/images/')
+        # os.system('rm -rf ' + media + '/cover-images/')
+        # os.system('mv ' + media + '/saved_cover-images/ ' + media + '/cover_images/')
+        # os.system('mv ' + media + '/saved_images/ ' + media + '/images/')
 
     def test_profile_exists_on_user(self):
         """Test profile was created and has Seattle location."""
@@ -156,6 +159,9 @@ class ImagesTests(TestCase):
 
     def setUp(self):
         """Generate users using Factory Boiiii."""
+        # os.system('mv ' + media + '/images/ ' + media + '/saved_images/')
+        # os.system('mv ' + media + '/cover_images/ ' + media + '/saved_cover_images/')
+
         self.photos = []
         user = FactoryUserBoi.create()
         user.set_password('percentsignbois')
@@ -190,8 +196,10 @@ class ImagesTests(TestCase):
 
     def tearDown(self):
         """Tear down testing data."""
-        os.system('rm -rf ' + media + '/images/')
-        os.system('rm -rf ' + media + '/cover-images/')
+        # os.system('rm -rf ' + media + '/images/')
+        # os.system('rm -rf ' + media + '/cover_images/')
+        # os.system('mv ' + media + '/saved_cover-images/ ' + media + '/cover_images/')
+        # os.system('mv ' + media + '/saved_images/ ' + media + '/images/')
 
     def test_response_code_to_addalbum_page(self):
         """Test that going to add_album gets a 200 Ok response."""
