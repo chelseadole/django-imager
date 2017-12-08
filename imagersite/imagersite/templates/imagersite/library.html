@@ -15,7 +15,7 @@
         <div class="card h-100">
           <img class="card-img-top" src="{{ album.cover.url }}" alt="{{ album.title}}">
           <div class="card-body text-center">
-            <h4 class="card-title m-0">{{ album.title }}
+            <h4 class="card-title m-0"><a href="albums/{{ album.id }}">{{ album.title }}</a>
             </h4>
           </div>
           <a class="btn btn-primary" href="albums/{{ album.id }}/edit" role="button">Edit Album</a>
