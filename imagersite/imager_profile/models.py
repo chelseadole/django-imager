@@ -35,7 +35,7 @@ class Profile(models.Model):
     website = models.URLField()
     location = models.CharField(
         max_length=50)
-    fee = models.FloatField()
+    fee = models.FloatField(blank=True, null=True)
     active = ProfileManager()
     camera = models.CharField(
         choices=CAMERA_CHOICES,
@@ -45,7 +45,7 @@ class Profile(models.Model):
         max_length=300)
     bio = models.CharField(
         max_length=700)
-    phone = models.IntegerField()
+    phone = models.IntegerField(blank=True, null=True)
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -66,5 +66,5 @@ class Profile(models.Model):
 def create_profile(sender, **kwargs):
     """Receiver to make profile when User is made."""
     if kwargs['created']:
-        profile = Profile(user=kwargs['instance'], fee=20.00, phone=2060000000)
+        profile = Profile(user=kwargs['instance'])
         profile.save()

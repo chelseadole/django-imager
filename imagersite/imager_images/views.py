@@ -3,11 +3,13 @@
 from imager_images.models import Album, Photo
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from imager_images.forms import NewAlbum, NewPhoto
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class LibraryView(ListView):
+class LibraryView(LoginRequiredMixin, ListView):
     """Library of user's albums."""
 
+    login_url = '/login'
     template_name = "imagersite/library.html"
     model = Album
     exclude = []
@@ -68,10 +70,11 @@ class AlbumView(ListView):
         }
 
 
-class AddAlbumView(CreateView):
+class AddAlbumView(LoginRequiredMixin, CreateView):
     """Create a new album."""
 
     model = Album
+    login_url = '/login'
     template_name = "imagersite/add_album.html"
     success_url = '/images/library'
     form_class = NewAlbum
@@ -85,10 +88,11 @@ class AddAlbumView(CreateView):
         return self.form_invalid(form)
 
 
-class AddPhotoView(CreateView):
+class AddPhotoView(LoginRequiredMixin, CreateView):
     """Create a new image."""
 
     model = Photo
+    login_url = '/login'
     template_name = "imagersite/add_photo.html"
     success_url = '/images/library'
     form_class = NewPhoto
@@ -102,19 +106,21 @@ class AddPhotoView(CreateView):
         return self.form_invalid(form)
 
 
-class EditPhoto(UpdateView):
+class EditPhoto(LoginRequiredMixin, UpdateView):
     """Edit a photo."""
 
     model = Photo
+    login_url = '/login'
     template_name = 'imagersite/edit_photo.html'
     success_url = '/images/library'
     fields = ['title', 'img', 'description', 'published']
 
 
-class EditAlbum(UpdateView):
+class EditAlbum(LoginRequiredMixin, UpdateView):
     """Edit an album."""
 
     model = Album
+    login_url = '/login'
     template_name = 'imagersite/edit_album.html'
     success_url = '/images/library'
     fields = ['title', 'cover', 'photos', 'description', 'published']

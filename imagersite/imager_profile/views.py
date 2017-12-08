@@ -7,10 +7,10 @@ from django.views.generic import DetailView, ListView, UpdateView
 from imager_profile.forms import EditProfileForm
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-
-class ProfileView(ListView):
+class ProfileView(LoginRequiredMixin, ListView):
     """View for user profile page."""
 
     model = User
@@ -58,29 +58,23 @@ class AltProfileView(DetailView):
             return {'user_exists': False}
 
 
-class EditProfileView(UpdateView):
+class EditProfileView(LoginRequiredMixin, UpdateView):
     """View to edit profile information based on User and Profile models."""
 
     model = Profile
-    template = "imagersite/profile_form.html"
-    # success_url = "/profile"
+    template_name = "imagersite/profile_form.html"
     success_url = reverse_lazy('profile')
     form_class = EditProfileForm
-    # fields = []
 
     def get_object(self):
         """Overwriting UpdateView object to get user."""
         return self.request.user.profile
 
-    def form_valid(self):
+    def form_valid(self, form):
         """Check that form is valid and successful before editing."""
+        self.object = form.save()
+        self.object.user.username = form.cleaned_data['Username']
+        self.object.user.email = form.cleaned_data['Email']
+        self.object.user.save()
+        self.object.save()
         return HttpResponseRedirect(self.get_success_url())
-
-    # def get_context_data(self, **kwargs):
-    #     """Context data for user stats."""
-    #     context = super(EditProfileView, self).get_context_data(**kwargs)
-    #     user = context['view'].request.user
-    #     return {
-    #         "user": user,
-    #         "profile": user.profile
-    #     }

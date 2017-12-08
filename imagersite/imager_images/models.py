@@ -54,7 +54,7 @@ class Album(models.Model):
         max_length=10,
         default="Public"
     )
-    cover = models.ImageField(upload_to='cover-images')
+    cover = models.ImageField(upload_to='cover-images', blank=True, null=True)
     user = models.ForeignKey(
         User,
         related_name='album',

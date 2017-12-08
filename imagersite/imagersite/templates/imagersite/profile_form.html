@@ -9,6 +9,7 @@
       <strong>Edit Profile</strong>
     </h2>
     <form class="" method="post">
+      {{ body_text | escape }}
       {% csrf_token %}
       {{ form.as_p }}
       <input type="submit" value="Edit Profile"/>
