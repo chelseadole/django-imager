@@ -22,7 +22,7 @@
         <div class="card h-100">
           <img class="img-fluid img-thumbnail" src="{{ photo.img.url }}" alt="{{ photo.title}}">
           <div class="card-body text-center">
-            <h4 class="card-title m-0"><a href="photos/{{ photo.id }}">{{ photo.title }}</a>
+            <h4 class="card-title m-0"><a href="{% url 'photo_view' pk=photo.id %}">{{ photo.title }}</a>
           </div>
         </div>
       </div>
