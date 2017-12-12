@@ -4,15 +4,19 @@ from imager_images.models import Album, Photo
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from imager_images.forms import NewAlbum, NewPhoto
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 
 
 class LibraryView(LoginRequiredMixin, ListView):
-    """Library of user's albums."""
+    """Library view displays all photo and album views."""
 
     login_url = '/login'
-    template_name = "imagersite/library.html"
-    model = Album
-    exclude = []
+    template_name = 'imagersite/library.html'
+    model = User
+
+    def get_queryset(self, user=None):
+        """Get queryset for photos."""
+        return User
 
 
 class AlbumGalleryView(ListView):
@@ -84,6 +88,7 @@ class AddAlbumView(LoginRequiredMixin, CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         if form.is_valid():
+            form.instance.user = self.request.user
             return self.form_valid(form)
         return self.form_invalid(form)
 
@@ -102,6 +107,7 @@ class AddPhotoView(LoginRequiredMixin, CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         if form.is_valid():
+            form.instance.user = self.request.user
             return self.form_valid(form)
         return self.form_invalid(form)
 
