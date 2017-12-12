@@ -28,6 +28,12 @@ DEBUG = bool(os.environ.get('DEBUG', ''))
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split()
 LOGOUT_REDIRECT_URL = '/'
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 
 # Application definition
 
@@ -40,7 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'imagersite',
     'imager_profile',
-    'imager_images'
+    'imager_images',
+    'imager_api',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
