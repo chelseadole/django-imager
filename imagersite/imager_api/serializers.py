@@ -1,6 +1,7 @@
 """Serializers for Imager API."""
 
-from imagersite.imager_images import Photo
+from imager_images.models import Photo
+from rest_framework import serializers
 
 
 class PhotoSerializer(serializers.ModelSerializer):
