@@ -276,3 +276,5 @@ class ImagesTests(TestCase):
         photo = FactoryPhotoBoi.create()
         response = self.client.get("/images/photos/" + str(photo.id) + "/edit", follow=True)
         self.assertTemplateUsed(response, 'imagersite/edit_photo.html')
+
+        
