@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from imager_images.forms import NewAlbum, NewPhoto
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 
 
 class LibraryView(LoginRequiredMixin, ListView):
@@ -30,8 +31,9 @@ class AlbumGalleryView(ListView):
         """Context data for AlbumGallery."""
         queryset = Album.objects.filter(published="Public")
         albums = queryset.all()
+        album_pages = Paginator(albums, 4)
         return {
-            "albums": albums
+            "albums": album_pages
         }
 
 
@@ -46,8 +48,9 @@ class PhotoGalleryView(ListView):
         """Context data for PhotoGallery."""
         queryset = Photo.objects.filter(published="Public")
         photos = queryset.all()
+        photo_pages = Paginator(photos, 4)
         return {
-            "photos": photos
+            "photos": photo_pages
         }
 
 

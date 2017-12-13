@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get('DEBUG', ''))
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split()
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 LOGOUT_REDIRECT_URL = '/'
 
 
