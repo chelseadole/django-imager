@@ -33,7 +33,7 @@ class AlbumGalleryView(ListView):
         albums = queryset.all()
         album_pages = Paginator(albums, 4)
         return {
-            "albums": album_pages
+            "albums": album_pages.page(int(self.request.GET['page']))
         }
 
 
