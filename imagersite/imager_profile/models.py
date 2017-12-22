@@ -32,19 +32,27 @@ class Profile(models.Model):
         ('Other', 'Other')
     )
     # objects = models.ModelManager()
-    website = models.URLField()
+    website = models.URLField(blank=True, null=True)
     location = models.CharField(
-        max_length=50)
+        max_length=50,
+        blank=True,
+        null=True)
     fee = models.FloatField(blank=True, null=True)
     active = ProfileManager()
     camera = models.CharField(
         choices=CAMERA_CHOICES,
-        max_length=120)
+        max_length=120,
+        blank=True,
+        null=True)
     services = models.CharField(
         choices=SERVICE_CHOICES,
-        max_length=300)
+        max_length=300,
+        blank=True,
+        null=True)
     bio = models.CharField(
-        max_length=700)
+        max_length=700,
+        blank=True,
+        null=True)
     phone = models.IntegerField(blank=True, null=True)
     user = models.OneToOneField(
         User,
