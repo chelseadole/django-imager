@@ -1,0 +1,50 @@
+{% extends 'imagersite/base.html' %}
+{% block content %}
+
+<div class="bg-faded p-4 my-4">
+    <hr class="divider">
+    <h2 class="text-center text-lg text-uppercase my-0">
+      <strong>Albums</strong>
+    </h2>
+  <a class="btn btn-primary" href="/images/albums/add" role="button">Create Album</a>
+  <a class="btn btn-primary" href="/images/photos/add" role="button">Upload Photo</a>
+    {% for album in user.album.all %}
+    <hr class="divider">
+    <div class="row">
+      <div class="col-md-4 mb-4 mb-md-0">
+        <div class="card h-100">
+          <img class="card-img-top" src="{{ album.cover.url }}" alt="{{ album.title}}">
+          <div class="card-body text-center">
+            <h4 class="card-title m-0"><a href="albums/{{ album.id }}">{{ album.title }}</a>
+            </h4>
+          </div>
+          <a class="btn btn-primary" href="albums/{{ album.id }}/edit" role="button">Edit Album</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="bg-faded p-4 my-4">
+    <hr class="divider">
+    <h2 class="text-center text-lg text-uppercase my-0">
+      <strong>Photos</strong>
+    </h2>
+    {% for photo in user.photo.all %}
+    <hr class="divider">
+    <div class="row">
+      <div class="col-md-4 mb-4 mb-md-0">
+        <div class="card h-100">
+          <img class="card-img-top" src="{{ photo.img.url }}" alt="{{ photo.title}}">
+          <div class="card-body text-center">
+            <h4 class="card-title m-0"><a href="photos/{{ photo.id }}">{{ photo.title }}</a>
+            </h4>
+          </div>
+          <a class="btn btn-primary" href="photos/{{ photo.id }}/edit" role="button">Edit Photo</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}

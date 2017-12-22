@@ -1,0 +1,50 @@
+{% extends 'imagersite/base.html' %}
+{% block content %}
+
+<div class="container">
+
+  <div class="bg-faded p-4 my-4">
+    <hr class="divider">
+    <h2 class="text-center text-lg text-uppercase my-0">
+      <strong>{{ user.username }}</strong>
+      <br>
+      <a class="btn btn-primary" href="/profile/edit/" role="button">Edit Profile</a>
+    </h2>
+    <hr class="divider">
+    <div class="row">
+      </div>
+      <div class="col-lg-6">
+        <h3>Your Account Stats:
+        <ul>
+          <li>Total Photos:</li>
+          <ul>
+            <li>Public: {{ photos_pub }}</li>
+            <li>Private: {{ photos_pri }}</li>
+          </ul>
+          <li>Total Albums:</li>
+          <ul>
+            <li>Public: {{ public_albums }}</li>
+            <li>Private: {{ private_albums }}</li>
+          </ul>
+
+        </ul>
+      </div>
+      <div class="col-lg-6">
+        <h3>{{ user.username }}'s Info:
+        <ul>
+          <li>Bio: {{ profile.bio }}</li>
+          <li>Location: {{ profile.location }}</li>
+          <li>Phone: {{ profile.phone }}</li>
+          <li>Website: {{ profile.website }}</li>
+          <li>Services: {{ profile.services }}</li>
+          <li>Fee: {{ profile.fee }}</li>
+          <li>Camera: {{ profile.camera }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+{% endblock %}

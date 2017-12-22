@@ -1,0 +1,58 @@
+{% extends 'imagersite/base.html' %}
+{% block content %}
+{% load static %}
+
+
+<div class="container">
+  <div class="bg-faded p-4 my-4">
+    <hr class="divider">
+    <h2 class="text-center text-lg text-uppercase my-0">Take pictures
+      <strong>worth sharing</strong>
+    </h2>
+    <hr class="divider">
+    <p>Imager is your one-stop shop for image sharing, high-def photo editing, interacting with your photographer friends, and discovering new art. </p>
+  </div>
+</div>
+
+<div class="bg-faded p-4 my-4">
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+      <div class="carousel-item active">
+        <img class="d-block img-fluid w-100" src="{% static 'img/slide-1.jpg' %}" alt="">
+        <div class="carousel-caption d-none d-md-block">
+          <h3 class="text-shadow">"Milky Tulips"</h3>
+          <p class="text-shadow">Andréas Olson</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img class="d-block img-fluid w-100" src="{% static 'img/slide-2.jpg' %}" alt="">
+        <div class="carousel-caption d-none d-md-block">
+          <h3 class="text-shadow">"Chemex"</h3>
+          <p class="text-shadow">Holly Butterfield</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img class="d-block img-fluid w-100" src="{% static 'img/slide-3.jpg' %}" alt="">
+        <div class="carousel-caption d-none d-md-block">
+          <h3 class="text-shadow">"Blueberry Scones"</h3>
+          <p class="text-shadow">Ben Larson</p>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+        <!-- Welcome Message -->
+</div>
+{% endblock content %}
