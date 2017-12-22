@@ -21,7 +21,7 @@ class Photo(models.Model):
         max_length=200)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    date_published = models.DateTimeField()
+    date_published = models.DateTimeField(auto_now_add=True)
     published = models.CharField(
         choices=PUBLISH,
         max_length=10,
@@ -29,8 +29,13 @@ class Photo(models.Model):
     )
     user = models.ForeignKey(
         User,
-        related_name='photo'
+        related_name='photo',
+        null=True
     )
+
+    def __str__(self):
+        """."""
+        return self.title
 
 
 class Album(models.Model):
@@ -52,5 +57,10 @@ class Album(models.Model):
     cover = models.ImageField(upload_to='cover-images')
     user = models.ForeignKey(
         User,
-        related_name='album'
+        related_name='album',
+        null=True
     )
+
+    def __str__(self):
+        """."""
+        return self.title

@@ -4,9 +4,13 @@ from django.test import TestCase
 from imager_images.models import Album, Photo
 from django.contrib.auth.models import User
 import factory
-import os
-from imagersite.settings import BASE_DIR
 from datetime import datetime
+from django.test import Client
+from django.urls import reverse_lazy
+from imager_images.forms import NewAlbum, NewPhoto
+from bs4 import BeautifulSoup as soup
+
+client = Client()
 
 
 class FactoryUserBoi(factory.django.DjangoModelFactory):
@@ -116,3 +120,106 @@ class PhotoAndAlbumTests(TestCase):
     def test_album_has_user_and_user_has_attributes(self):
         """Test that Album class has a user."""
         self.assertTrue("codefellows.gov" in self.album.user.email)
+
+
+class ImageViewTests(TestCase):
+    """Tests for imager_profile/views.py."""
+
+    def setUp(self):
+        """Generate users using Factory Boiiii."""
+        self.photos = []
+        user = FactoryUserBoi.create()
+        user.set_password('percentsignbois')
+        user.save()
+
+        user.profile.location = "Seattle"
+        user.profile.save()
+
+        users_album = Album(user=user, title="Albumerino", published="Public")
+        users_album.save()
+
+        for i in range(10):
+            photo = FactoryPhotoBoi.build()
+            photo.user = user
+            photo.save()
+            users_album.photos.add(photo)
+            self.photos.append(photo)
+
+        self.album = users_album
+        self.profile = user.profile
+        self.user = user
+
+    def test_response_code_to_addalbum_page(self):
+        """Test that going to add_album gets a 200 Ok response."""
+        response = self.client.get(reverse_lazy('add_album'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_response_code_to_addphoto_page(self):
+        """Test that going to add_photo gets a 200 Ok response."""
+        response = self.client.get(reverse_lazy('add_photo'))
+        self.assertEqual(response.status_code, 200)
+
+    # def test_response_code_to_photogallery_page(self):
+    #     """Test that going to add_photo gets a 200 Ok response."""
+    #     response = self.client.get(reverse_lazy('photo_gallery'))
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_response_code_to_albumgallery_page(self):
+    #     """Test that going to add_photo gets a 200 Ok response."""
+    #     response = self.client.get(reverse_lazy('album_gallery'))
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_response_code_to_library_page(self):
+    #     """Test that going to add_photo gets a 200 Ok response."""
+    #     response = self.client.get(reverse_lazy('library'))
+    #     self.assertEqual(response.status_code, 200)
+
+    def test_incorrectly_formatted_use_of_photo_form(self):
+        """Test that a post request to add_photo works."""
+        new_photo = {
+            'description': 'the boy of the photos',
+            'published': "Private"
+        }
+        form = NewPhoto(data=new_photo)
+        self.assertFalse(form.is_valid())
+
+    # def test_correctly_formatted_use_of_photo_form(self):
+    #     """Test that adding all fields to photo form works."""
+    #     new_photo = {
+    #         'description': 'the boy of the photos',
+    #         'published': "Private",
+    #         'title': 'this time it will work!'
+    #     }
+    #     form = NewPhoto(data=new_photo)
+    #     self.assertTrue(form.is_valid())
+
+    def test_incorrectly_formatted_use_of_album_form(self):
+        """Test that a bad use of add_photo doesnt work."""
+        new_album = {
+            'description': 'the boy of the photos',
+            'thiscategoryisincorrect': 'nope'
+        }
+        form = NewAlbum(data=new_album)
+        self.assertFalse(form.is_valid())
+
+    # def test_correctly_formatted_use_of_album_form(self):
+    #     """Test that a valid use of add_album works."""
+    #     new_album = {
+    #         'description': 'the boy of the photos',
+    #         'title': 'a working album',
+    #         'published': 'Private',
+    #         'photos': '2'
+    #     }
+    #     form = NewAlbum(data=new_album)
+    #     self.assertTrue(form.is_valid())
+
+    # def test_detail_view_wont_work_for_nonexisting_photo(self):
+    #     """Test a detail view for a photo whose ID doesnt exist."""
+    #     response = self.client.get(reverse_lazy('photo_view'), args=[100])
+    #     self.assertEqual(response.status_code, 404)
+
+    def test_album_gallery_only_shows_public_albums(self):
+        """Test that album_gallery url only shows public view albums."""
+        response = self.client.get(reverse_lazy('album_gallery'))
+        parsed_page = soup(response.content, 'html.parser')
+        # Assert that every listed album here is "Public"

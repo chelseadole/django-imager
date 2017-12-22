@@ -15,7 +15,11 @@
       <div class="col-lg-6">
         <h3>Your Account Stats:
         <ul>
-          <li>Total Photos: {{ num_photos }}
+          <li>Total Photos:</li>
+          <ul>
+            <li>Public: {{ photos_pub }}</li>
+            <li>Private: {{ photos_pri }}</li>
+          </ul>
           <li>Total Albums:</li>
           <ul>
             <li>Public: {{ public_albums }}</li>

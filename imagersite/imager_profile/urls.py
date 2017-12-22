@@ -1,9 +1,9 @@
 """Urls for profiles."""
 
 from django.conf.urls import url
-from imager_profile.views import profile_view, alt_profile_view
+from imager_profile.views import ProfileView, AltProfileView
 
 urlpatterns = [
-    url(r'^$', profile_view, name='profile'),
-    url(r'^(?P<user>\w+)$', alt_profile_view, name="alt_profile"),
+    url(r'^$', ProfileView.as_view(), name='profile'),
+    url(r'^(?P<slug>\w+\d*)/$', AltProfileView.as_view(), name="alt_profile")
 ]
