@@ -2,6 +2,9 @@
 
 from django.shortcuts import render
 from registration.backends.hmac.views import RegistrationView
+from imager_profile.models import Profile
+from imager_images.models import Album, Photo
+from django.contrib.auth.models import User
 
 
 def home_view(request, number=None):

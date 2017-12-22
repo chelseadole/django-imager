@@ -1,0 +1,87 @@
+{% extends 'imagersite/base.html' %}
+{% block content %}
+
+{% if user_exists %}
+<div class="container">
+
+  <div class="bg-faded p-4 my-4">
+    <hr class="divider">
+    <h2 class="text-center text-lg text-uppercase my-0">
+      <strong>{{ user.username }}</strong>
+    </h2>
+    <hr class="divider">
+    <div class="row">
+      <div class="col-lg-6">
+        <img class="img-fluid mb-4 mb-lg-0" src="../../static/img/slide-2.jpg" alt="">
+      </div>
+      <div class="col-lg-6">
+        <h3>{{ user.username }}'s Info:
+        <ul>
+          <li>Bio: {{ profile.bio }}</li>
+          <li>Location: {{ profile.location }}</li>
+          <li>Website: {{ profile.website }}</li>
+          <li>Services: {{ profile.services }}</li>
+          <li>Fee: {{ profile.fee }}</li>
+          <li>Camera: {{ profile.camera }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-faded p-4 my-4">
+    <hr class="divider">
+    <h2 class="text-center text-lg text-uppercase my-0">Our
+      <strong>Team</strong>
+    </h2>
+    <hr class="divider">
+    <div class="row">
+      <div class="col-md-4 mb-4 mb-md-0">
+        <div class="card h-100">
+          <img class="card-img-top" src="http://placehold.it/750x450" alt="">
+          <div class="card-body text-center">
+            <h4 class="card-title m-0">John Smith
+              <small class="text-muted">Job Title</small>
+            </h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4 mb-md-0">
+        <div class="card h-100">
+          <img class="card-img-top" src="http://placehold.it/750x450" alt="">
+          <div class="card-body text-center">
+            <h4 class="card-title m-0">John Smith
+              <small class="text-muted">Job Title</small>
+            </h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img class="card-img-top" src="http://placehold.it/750x450" alt="">
+          <div class="card-body text-center">
+            <h4 class="card-title m-0">John Smith
+              <small class="text-muted">Job Title</small>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% else %}
+<div class="container">
+
+  <div class="bg-faded p-4 my-4">
+    <hr class="divider">
+    <h2 class="text-center text-lg text-uppercase my-0">
+      <strong>This user does not exist.</strong>
+    </h2>
+  </div>
+</div>
+
+{% endif %}
+
+
+{% endblock %}
